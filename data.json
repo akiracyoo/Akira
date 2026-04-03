@@ -1,12 +1,11 @@
 [
-  },
   {
     "name": "工具",
     "links": [
       { "title": "Youtube下载器", "url": "https://genyoutube.online/zh-cn2/" },
-        { "title": "Youtube下载器", "url": "https://y2down.cc/zhUH/" },
-        { "title": "Youtube字幕下载器", "url": "https://www.downloadyoutubesubtitles.com/zh" },
-        { "title": "Youtube缩略图下载器", "url": "https://cftools.top/index.html" },
+      { "title": "Youtube下载器", "url": "https://y2down.cc/zhUH/" },
+      { "title": "Youtube字幕下载器", "url": "https://www.downloadyoutubesubtitles.com/zh" },
+      { "title": "Youtube缩略图下载器", "url": "https://cftools.top/index.html" },
       { "title": "Perplexity", "url": "https://www.perplexity.ai" },
       { "title": "Gemini", "url": "https://gemini.google.com" },
       { "title": "豆包", "url": "https://www.doubao.com" },
@@ -15,7 +14,10 @@
   },
   {
     "name": "职业考试",
-    "links": [ ... ]
+    "links": [
+      { "title": "中国人事考试网", "url": "http://www.cpta.com.cn" },
+      { "title": "学信网", "url": "https://www.chsi.com.cn" }
+    ]
   }
 ]
   {
