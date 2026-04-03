@@ -62,5 +62,12 @@
       { "title": "4KVM", "url": "https://www.4kvm.net/" },
       { "title": "Nunu", "url": "https://nnyy.in/" }
     ]
+  },
+  {
+    "name": "禁忌",
+    "links": [
+      { "title": "missAV", "url": "https://missav.ai/dm221/ja" },
+      { "title": "AV论坛", "url": "https://www.javlibrary.com/cn/publicgroup.php?id=11" }
+    ]
   }
 ]
