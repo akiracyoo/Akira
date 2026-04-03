@@ -1,809 +1,92 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>夜遊天</title>
-  <style>
-    :root{
-      --bg:#0b0b0c;
-      --panel:#111214;
-      --panel-2:#17181b;
-      --text:#f5f7fa;
-      --muted:#8b9098;
-      --line:rgba(255,255,255,.08);
-      --line-2:rgba(255,255,255,.12);
-      --hover:rgba(255,255,255,.04);
-      --shadow:0 10px 30px rgba(0,0,0,.28);
-      --radius:22px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>夜遊天</title>
 
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0}
-    body{
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,.04), transparent 30%),
-        radial-gradient(circle at top right, rgba(255,255,255,.03), transparent 28%),
-        var(--bg);
-      color:var(--text);
-      font-family:
-        -apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
-        "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
-      min-height:100vh;
-      letter-spacing:.2px;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont;
+  background: #ffffff;
+  color: #000;
+}
 
-    .wrap{
-      width:min(1200px, calc(100% - 32px));
-      margin:32px auto 72px;
-    }
+/* 容器 */
+.container {
+  max-width: 1000px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
 
-    .topbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:22px;
-      position:sticky;
-      top:0;
-      z-index:20;
-      padding:14px 0;
-      backdrop-filter: blur(14px);
-      background:linear-gradient(to bottom, rgba(11,11,12,.86), rgba(11,11,12,.36));
-    }
+/* 分类 */
+.category {
+  margin-bottom: 50px;
+}
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      min-width:0;
-    }
+.category-title {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
 
-    .brand-title{
-      font-size:20px;
-      font-weight:700;
-      line-height:1;
-      white-space:nowrap;
-    }
+/* 网格 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
 
-    .brand-sub{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1;
-    }
+/* 卡片 */
+.card {
+  display: block;
+  padding: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #000;
+  background: #f5f5f5;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
 
-    .tools{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
-    .input,
-    .select,
-    .btn{
-      border:none;
-      outline:none;
-      color:var(--text);
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:16px;
-      height:42px;
-      padding:0 14px;
-      transition:.2s ease;
-      box-shadow:var(--shadow);
-    }
-
-    .input{
-      min-width:240px;
-    }
-
-    .input::placeholder{
-      color:var(--muted);
-    }
-
-    .input:focus,
-    .select:focus,
-    .btn:hover{
-      border-color:var(--line-2);
-      background:var(--panel-2);
-    }
-
-    .btn{
-      cursor:pointer;
-      font-weight:600;
-    }
-
-    .btn.ghost{
-      background:transparent;
-      box-shadow:none;
-    }
-
-    .btn.danger{
-      color:#ffb6b6;
-    }
-
-    .toolbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-bottom:24px;
-    }
-
-    .section{
-      margin-bottom:34px;
-    }
-
-    .section-head{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:14px;
-    }
-
-    .section-title{
-      font-size:13px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:1.8px;
-    }
-
-    .section-actions{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
-      gap:12px;
-    }
-
-    .card{
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:92px;
-      padding:16px;
-      border-radius:20px;
-      text-decoration:none;
-      color:var(--text);
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      transition:transform .18s ease, border-color .18s ease, background .18s ease;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .card:hover{
-      transform:translateY(-3px);
-      border-color:var(--line-2);
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    }
-
-    .card-title{
-      font-size:15px;
-      font-weight:650;
-      line-height:1.35;
-      word-break:break-word;
-    }
-
-    .card-url{
-      margin-top:10px;
-      font-size:11px;
-      color:var(--muted);
-      word-break:break-all;
-      line-height:1.45;
-    }
-
-    .card-edit{
-      position:absolute;
-      right:10px;
-      top:10px;
-      display:none;
-      gap:6px;
-    }
-
-    .edit-mode .card-edit{
-      display:flex;
-    }
-
-    .mini{
-      border:none;
-      cursor:pointer;
-      height:28px;
-      min-width:28px;
-      padding:0 8px;
-      border-radius:10px;
-      color:var(--text);
-      background:rgba(0,0,0,.42);
-      border:1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(8px);
-    }
-
-    .mini:hover{
-      background:rgba(255,255,255,.09);
-    }
-
-    .empty{
-      border:1px dashed var(--line-2);
-      border-radius:20px;
-      padding:24px;
-      text-align:center;
-      color:var(--muted);
-      background:rgba(255,255,255,.015);
-    }
-
-    .footer{
-      margin-top:44px;
-      color:var(--muted);
-      font-size:12px;
-      text-align:center;
-    }
-
-    .modal-mask{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.56);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:999;
-      padding:18px;
-    }
-
-    .modal-mask.show{
-      display:flex;
-    }
-
-    .modal{
-      width:min(560px, 100%);
-      border-radius:26px;
-      background:linear-gradient(180deg, #151619, #0f1012);
-      border:1px solid var(--line);
-      box-shadow:0 30px 80px rgba(0,0,0,.5);
-      padding:18px;
-    }
-
-    .modal-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom:14px;
-    }
-
-    .modal-title{
-      font-size:18px;
-      font-weight:700;
-    }
-
-    .form{
-      display:grid;
-      gap:12px;
-    }
-
-    .field{
-      display:grid;
-      gap:8px;
-    }
-
-    .label{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .field input,
-    .field select{
-      width:100%;
-      height:46px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background:#111214;
-      color:var(--text);
-      padding:0 14px;
-      outline:none;
-    }
-
-    .field input:focus,
-    .field select:focus{
-      border-color:var(--line-2);
-    }
-
-    .modal-actions{
-      margin-top:16px;
-      display:flex;
-      justify-content:flex-end;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    @media (max-width: 720px){
-      .topbar{
-        flex-direction:column;
-        align-items:stretch;
-      }
-      .tools{
-        justify-content:stretch;
-      }
-      .input{
-        min-width:unset;
-        width:100%;
-      }
-      .grid{
-        grid-template-columns:repeat(2, minmax(0,1fr));
-      }
-    }
-
-    @media (max-width: 480px){
-      .grid{
-        grid-template-columns:1fr;
-      }
-    }
-  </style>
+.card:hover {
+  background: #eaeaea;
+  transform: translateY(-2px);
+}
+</style>
 </head>
+
 <body>
-  <div class="wrap" id="app">
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-title">夜遊天</div>
-        <div class="brand-sub">极简导航 · 无图标 · 可前台编辑</div>
-      </div>
 
-      <div class="tools">
-        <input id="searchInput" class="input" type="text" placeholder="搜索网站 / 分类" />
-        <button id="toggleEditBtn" class="btn">进入编辑</button>
-        <button id="addCategoryBtn" class="btn ghost">新增分类</button>
-        <button id="exportBtn" class="btn ghost">导出数据</button>
-        <button id="resetBtn" class="btn ghost danger">恢复默认</button>
-      </div>
-    </div>
+<div class="container" id="app"></div>
 
-    <div id="content"></div>
+<script>
+fetch("data.json")
+  .then(res => res.json())
+  .then(data => {
+    const app = document.getElementById("app");
 
-    <div class="footer">
-      夜遊天 · Personal Navigation · GitHub Pages
-    </div>
-  </div>
+    data.forEach(category => {
+      const div = document.createElement("div");
+      div.className = "category";
 
-  <div class="modal-mask" id="modalMask">
-    <div class="modal">
-      <div class="modal-head">
-        <div class="modal-title" id="modalTitle">新增</div>
-        <button class="mini" id="closeModalBtn">×</button>
-      </div>
-
-      <form class="form" id="modalForm">
-        <div class="field" id="fieldCategoryName">
-          <div class="label">分类名称</div>
-          <input type="text" id="categoryNameInput" placeholder="例如：AI / 工作 / 影音" />
+      div.innerHTML = `
+        <div class="category-title">${category.name}</div>
+        <div class="grid">
+          ${category.links.map(link => `
+            <a class="card" href="${link.url}" target="_blank">
+              ${link.title}
+            </a>
+          `).join("")}
         </div>
+      `;
 
-        <div class="field" id="fieldCategorySelect">
-          <div class="label">选择分类</div>
-          <select id="categorySelect"></select>
-        </div>
-
-        <div class="field" id="fieldLinkTitle">
-          <div class="label">网站名称</div>
-          <input type="text" id="linkTitleInput" placeholder="例如：ChatGPT" />
-        </div>
-
-        <div class="field" id="fieldLinkUrl">
-          <div class="label">网址</div>
-          <input type="text" id="linkUrlInput" placeholder="例如：https://chatgpt.com" />
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="btn ghost" id="cancelBtn">取消</button>
-          <button type="submit" class="btn" id="saveBtn">保存</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script>
-    const STORAGE_KEY = "yeyoutian_nav_data_v2";
-
-    const defaultData = [
-      {
-        name: "AI",
-        links: [
-          { title: "ChatGPT", url: "https://chatgpt.com" },
-          { title: "Claude", url: "https://claude.ai" },
-          { title: "Perplexity", url: "https://www.perplexity.ai" },
-          { title: "Gemini", url: "https://gemini.google.com" },
-          { title: "豆包", url: "https://www.doubao.com" },
-          { title: "Grok", url: "https://grok.x.ai" },
-          { title: "元宝", url: "https://yuanbao.tencent.com" },
-          { title: "即梦", url: "https://jimeng.jianying.com" },
-          { title: "DeepSeek", url: "https://chat.deepseek.com" }
-        ]
-      },
-      {
-        name: "Media",
-        links: [
-          { title: "Bilibili", url: "https://www.bilibili.com" },
-          { title: "YouTube", url: "https://www.youtube.com" },
-          { title: "小红书", url: "https://www.xiaohongshu.com" }
-        ]
-      },
-      {
-        name: "Tools",
-        links: [
-          { title: "GitHub", url: "https://github.com" },
-          { title: "Notion", url: "https://www.notion.so" },
-          { title: "Figma", url: "https://www.figma.com" }
-        ]
-      }
-    ];
-
-    let state = loadData();
-    let isEditMode = false;
-    let currentModalMode = "";
-    let editingCategoryIndex = null;
-    let editingLinkIndex = null;
-    let searchKeyword = "";
-
-    const contentEl = document.getElementById("content");
-    const searchInput = document.getElementById("searchInput");
-    const toggleEditBtn = document.getElementById("toggleEditBtn");
-    const addCategoryBtn = document.getElementById("addCategoryBtn");
-    const exportBtn = document.getElementById("exportBtn");
-    const resetBtn = document.getElementById("resetBtn");
-
-    const modalMask = document.getElementById("modalMask");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalForm = document.getElementById("modalForm");
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    const cancelBtn = document.getElementById("cancelBtn");
-
-    const fieldCategoryName = document.getElementById("fieldCategoryName");
-    const fieldCategorySelect = document.getElementById("fieldCategorySelect");
-    const fieldLinkTitle = document.getElementById("fieldLinkTitle");
-    const fieldLinkUrl = document.getElementById("fieldLinkUrl");
-
-    const categoryNameInput = document.getElementById("categoryNameInput");
-    const categorySelect = document.getElementById("categorySelect");
-    const linkTitleInput = document.getElementById("linkTitleInput");
-    const linkUrlInput = document.getElementById("linkUrlInput");
-
-    function loadData(){
-      try{
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw) return structuredClone(defaultData);
-        const parsed = JSON.parse(raw);
-        if(Array.isArray(parsed)) return parsed;
-        return structuredClone(defaultData);
-      }catch(e){
-        return structuredClone(defaultData);
-      }
-    }
-
-    function saveData(){
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function normalizeUrl(url){
-      const value = url.trim();
-      if(!value) return "";
-      if(/^https?:\/\//i.test(value)) return value;
-      return "https://" + value;
-    }
-
-    function escapeHtml(str){
-      return String(str)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#39;");
-    }
-
-    function render(){
-      document.body.classList.toggle("edit-mode", isEditMode);
-      toggleEditBtn.textContent = isEditMode ? "退出编辑" : "进入编辑";
-
-      const keyword = searchKeyword.trim().toLowerCase();
-      let html = "";
-
-      const filteredSections = state
-        .map((section, sectionIndex) => {
-          const matchedLinks = section.links.filter(link => {
-            if(!keyword) return true;
-            return (
-              section.name.toLowerCase().includes(keyword) ||
-              link.title.toLowerCase().includes(keyword) ||
-              link.url.toLowerCase().includes(keyword)
-            );
-          });
-
-          return {
-            ...section,
-            _sectionIndex: sectionIndex,
-            links: matchedLinks
-          };
-        })
-        .filter(section => section.links.length > 0 || (!keyword && section.links.length === 0));
-
-      if(filteredSections.length === 0){
-        contentEl.innerHTML = `<div class="empty">没有找到匹配结果</div>`;
-        return;
-      }
-
-      filteredSections.forEach(section => {
-        html += `
-          <section class="section">
-            <div class="section-head">
-              <div class="section-title">${escapeHtml(section.name)}</div>
-              ${
-                isEditMode
-                  ? `
-                  <div class="section-actions">
-                    <button class="mini" onclick="openAddLinkModal(${section._sectionIndex})">加链接</button>
-                    <button class="mini" onclick="openRenameCategoryModal(${section._sectionIndex})">改名</button>
-                    <button class="mini" onclick="deleteCategory(${section._sectionIndex})">删分类</button>
-                  </div>
-                  `
-                  : ""
-              }
-            </div>
-
-            ${
-              section.links.length
-                ? `<div class="grid">
-                    ${section.links.map(link => {
-                      const originalSection = state[section._sectionIndex];
-                      const linkIndex = originalSection.links.findIndex(
-                        item => item.title === link.title && item.url === link.url
-                      );
-
-                      return `
-                        <a class="card" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
-                          <div class="card-edit">
-                            <button class="mini" onclick="event.preventDefault(); openEditLinkModal(${section._sectionIndex}, ${linkIndex})">改</button>
-                            <button class="mini" onclick="event.preventDefault(); deleteLink(${section._sectionIndex}, ${linkIndex})">删</button>
-                          </div>
-                          <div class="card-title">${escapeHtml(link.title)}</div>
-                          <div class="card-url">${escapeHtml(link.url)}</div>
-                        </a>
-                      `;
-                    }).join("")}
-                  </div>`
-                : `<div class="empty">这个分类还没有链接</div>`
-            }
-          </section>
-        `;
-      });
-
-      contentEl.innerHTML = html;
-    }
-
-    function fillCategoryOptions(selectedIndex = 0){
-      categorySelect.innerHTML = state.map((section, idx) => {
-        return `<option value="${idx}" ${idx === selectedIndex ? "selected" : ""}>${escapeHtml(section.name)}</option>`;
-      }).join("");
-    }
-
-    function showModal(){
-      modalMask.classList.add("show");
-    }
-
-    function hideModal(){
-      modalMask.classList.remove("show");
-      modalForm.reset();
-      editingCategoryIndex = null;
-      editingLinkIndex = null;
-      currentModalMode = "";
-    }
-
-    function setModalFields(mode){
-      const config = {
-        addCategory: {
-          title: "新增分类",
-          showCategoryName: true,
-          showCategorySelect: false,
-          showLinkTitle: false,
-          showLinkUrl: false
-        },
-        renameCategory: {
-          title: "修改分类名",
-          showCategoryName: true,
-          showCategorySelect: false,
-          showLinkTitle: false,
-          showLinkUrl: false
-        },
-        addLink: {
-          title: "新增链接",
-          showCategoryName: false,
-          showCategorySelect: true,
-          showLinkTitle: true,
-          showLinkUrl: true
-        },
-        editLink: {
-          title: "编辑链接",
-          showCategoryName: false,
-          showCategorySelect: true,
-          showLinkTitle: true,
-          showLinkUrl: true
-        }
-      }[mode];
-
-      modalTitle.textContent = config.title;
-      fieldCategoryName.style.display = config.showCategoryName ? "grid" : "none";
-      fieldCategorySelect.style.display = config.showCategorySelect ? "grid" : "none";
-      fieldLinkTitle.style.display = config.showLinkTitle ? "grid" : "none";
-      fieldLinkUrl.style.display = config.showLinkUrl ? "grid" : "none";
-    }
-
-    function openAddCategoryModal(){
-      currentModalMode = "addCategory";
-      setModalFields(currentModalMode);
-      categoryNameInput.value = "";
-      showModal();
-      setTimeout(() => categoryNameInput.focus(), 30);
-    }
-
-    function openRenameCategoryModal(sectionIndex){
-      currentModalMode = "renameCategory";
-      editingCategoryIndex = sectionIndex;
-      setModalFields(currentModalMode);
-      categoryNameInput.value = state[sectionIndex].name;
-      showModal();
-      setTimeout(() => categoryNameInput.focus(), 30);
-    }
-
-    function openAddLinkModal(sectionIndex = 0){
-      currentModalMode = "addLink";
-      editingCategoryIndex = sectionIndex;
-      setModalFields(currentModalMode);
-      fillCategoryOptions(sectionIndex);
-      linkTitleInput.value = "";
-      linkUrlInput.value = "";
-      showModal();
-      setTimeout(() => linkTitleInput.focus(), 30);
-    }
-
-    function openEditLinkModal(sectionIndex, linkIndex){
-      currentModalMode = "editLink";
-      editingCategoryIndex = sectionIndex;
-      editingLinkIndex = linkIndex;
-      setModalFields(currentModalMode);
-      fillCategoryOptions(sectionIndex);
-
-      const link = state[sectionIndex].links[linkIndex];
-      linkTitleInput.value = link.title;
-      linkUrlInput.value = link.url;
-      showModal();
-      setTimeout(() => linkTitleInput.focus(), 30);
-    }
-
-    function deleteCategory(sectionIndex){
-      const name = state[sectionIndex]?.name || "这个分类";
-      if(!confirm(`确定删除分类「${name}」吗？分类下的所有链接也会一起删除。`)) return;
-      state.splice(sectionIndex, 1);
-      saveData();
-      render();
-    }
-
-    function deleteLink(sectionIndex, linkIndex){
-      const link = state[sectionIndex]?.links?.[linkIndex];
-      if(!link) return;
-      if(!confirm(`确定删除链接「${link.title}」吗？`)) return;
-      state[sectionIndex].links.splice(linkIndex, 1);
-      saveData();
-      render();
-    }
-
-    modalForm.addEventListener("submit", function(e){
-      e.preventDefault();
-
-      if(currentModalMode === "addCategory"){
-        const name = categoryNameInput.value.trim();
-        if(!name) return alert("请输入分类名称");
-        state.push({ name, links: [] });
-        saveData();
-        hideModal();
-        render();
-        return;
-      }
-
-      if(currentModalMode === "renameCategory"){
-        const name = categoryNameInput.value.trim();
-        if(!name) return alert("请输入分类名称");
-        state[editingCategoryIndex].name = name;
-        saveData();
-        hideModal();
-        render();
-        return;
-      }
-
-      if(currentModalMode === "addLink"){
-        if(state.length === 0){
-          return alert("请先新增一个分类");
-        }
-        const sectionIndex = Number(categorySelect.value);
-        const title = linkTitleInput.value.trim();
-        const url = normalizeUrl(linkUrlInput.value);
-        if(!title) return alert("请输入网站名称");
-        if(!url) return alert("请输入网址");
-
-        state[sectionIndex].links.push({ title, url });
-        saveData();
-        hideModal();
-        render();
-        return;
-      }
-
-      if(currentModalMode === "editLink"){
-        const newSectionIndex = Number(categorySelect.value);
-        const title = linkTitleInput.value.trim();
-        const url = normalizeUrl(linkUrlInput.value);
-        if(!title) return alert("请输入网站名称");
-        if(!url) return alert("请输入网址");
-
-        const oldLink = state[editingCategoryIndex].links[editingLinkIndex];
-        if(!oldLink) return;
-
-        state[editingCategoryIndex].links.splice(editingLinkIndex, 1);
-
-        state[newSectionIndex].links.push({ title, url });
-        saveData();
-        hideModal();
-        render();
-      }
+      app.appendChild(div);
     });
+  });
+</script>
 
-    searchInput.addEventListener("input", function(e){
-      searchKeyword = e.target.value || "";
-      render();
-    });
-
-    toggleEditBtn.addEventListener("click", function(){
-      isEditMode = !isEditMode;
-      render();
-    });
-
-    addCategoryBtn.addEventListener("click", function(){
-      openAddCategoryModal();
-    });
-
-    exportBtn.addEventListener("click", function(){
-      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "night-nav-data.json";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    });
-
-    resetBtn.addEventListener("click", function(){
-      if(!confirm("确定恢复默认数据吗？你现在前台改过的内容会被覆盖。")) return;
-      state = structuredClone(defaultData);
-      saveData();
-      render();
-    });
-
-    closeModalBtn.addEventListener("click", hideModal);
-    cancelBtn.addEventListener("click", hideModal);
-    modalMask.addEventListener("click", function(e){
-      if(e.target === modalMask) hideModal();
-    });
-
-    window.openAddLinkModal = openAddLinkModal;
-    window.openEditLinkModal = openEditLinkModal;
-    window.openRenameCategoryModal = openRenameCategoryModal;
-    window.deleteCategory = deleteCategory;
-    window.deleteLink = deleteLink;
-
-    render();
-  </script>
 </body>
 </html>
