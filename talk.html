@@ -1,72 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <title>Talk</title>
 
 <style>
 body {
-  max-width:700px;
-  margin:40px auto;
-  background:#fff;
-  color:#111;
-  font-family:-apple-system;
+  background: #fff;
+  color: #111;
+  font-family: -apple-system, BlinkMacSystemFont;
+  max-width: 720px;
+  margin: 60px auto;
 }
+
+h2 {
+  font-weight: 500;
+}
+
 textarea {
-  width:100%;
-  height:120px;
-  border:1px solid #ddd;
-  padding:10px;
+  width: 100%;
+  height: 120px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
 }
+
 button {
-  margin-top:10px;
-  padding:8px 16px;
-  background:#111;
-  color:#fff;
-  border:none;
+  margin-top: 10px;
+  padding: 6px 14px;
+  border: 1px solid #111;
+  background: #111;
+  color: #fff;
+  cursor: pointer;
 }
+
 .post {
-  border-bottom:1px solid #eee;
-  padding:12px 0;
+  border-top: 1px solid #eee;
+  padding: 14px 0;
 }
+
 .time {
-  font-size:12px;
-  color:#888;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 4px;
 }
 </style>
-
 </head>
 
 <body>
 
 <h2>Talk</h2>
 
-<textarea id="input"></textarea>
+<textarea id="input" placeholder="写点什么..."></textarea>
 <button onclick="publish()">发布</button>
 
 <div id="status"></div>
 <div id="list"></div>
 
 <script>
-
-// ⚠️ 改成你的仓库
 const repo = "akiracyoo/Akira";
-
-// ⚠️ 你的 GitHub 用户名
-const user = "akiracyoo";
-
-// ⚠️ 你自己设一个简单密码
-const password = "123456";
+const token = "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";
 
 function publish() {
   const text = document.getElementById("input").value.trim();
   if (!text) return;
-
-  const pass = prompt("输入密码");
-  if (pass !== password) {
-    alert("密码错误");
-    return;
-  }
 
   document.getElementById("status").innerText = "发布中...";
 
@@ -74,7 +71,7 @@ function publish() {
     method: "POST",
     headers: {
       "Accept": "application/vnd.github+json",
-      "Authorization": "Bearer YOUR_TOKEN",  // ⚠️ 这里要换
+      "Authorization": "Bearer " + token,
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
@@ -84,22 +81,25 @@ function publish() {
   }).then(() => {
     document.getElementById("status").innerText = "已发布（稍等刷新）";
     document.getElementById("input").value = "";
+    setTimeout(load, 2000);
   });
 }
 
-// 读取内容
-fetch("./talk.json")
-.then(res => res.json())
-.then(data => {
-  document.getElementById("list").innerHTML =
-    data.reverse().map(i => `
-      <div class="post">
-        <div class="time">${i.time}</div>
-        <div>${i.text}</div>
-      </div>
-    `).join("");
-});
+function load() {
+  fetch("./posts.json?" + Date.now())
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("list").innerHTML =
+        data.map(i => `
+          <div class="post">
+            <div class="time">${i.time}</div>
+            <div>${i.text}</div>
+          </div>
+        `).join("");
+    });
+}
 
+load();
 </script>
 
 </body>
