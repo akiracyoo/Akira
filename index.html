@@ -3,723 +3,807 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>夜遊天国</title>
-  <meta name="description" content="夜遊天国 - 极简高级导航页" />
+  <title>夜遊天</title>
   <style>
-    :root {
-      --bg: #f7f7f5;
-      --card: rgba(255, 255, 255, 0.88);
-      --text: #111111;
-      --subtle: #6b6b6b;
-      --line: rgba(17, 17, 17, 0.08);
-      --line-strong: rgba(17, 17, 17, 0.16);
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      --shadow-hover: 0 18px 45px rgba(0, 0, 0, 0.1);
-      --radius-xl: 28px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --max-width: 1240px;
+    :root{
+      --bg:#0b0b0c;
+      --panel:#111214;
+      --panel-2:#17181b;
+      --text:#f5f7fa;
+      --muted:#8b9098;
+      --line:rgba(255,255,255,.08);
+      --line-2:rgba(255,255,255,.12);
+      --hover:rgba(255,255,255,.04);
+      --shadow:0 10px 30px rgba(0,0,0,.28);
+      --radius:22px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
       background:
-        radial-gradient(circle at top left, rgba(0, 0, 0, 0.03), transparent 30%),
-        radial-gradient(circle at top right, rgba(0, 0, 0, 0.025), transparent 24%),
+        radial-gradient(circle at top left, rgba(255,255,255,.04), transparent 30%),
+        radial-gradient(circle at top right, rgba(255,255,255,.03), transparent 28%),
         var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 28px 18px 48px;
+      color:var(--text);
+      font-family:
+        -apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",
+        "PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      min-height:100vh;
+      letter-spacing:.2px;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    .wrap{
+      width:min(1200px, calc(100% - 32px));
+      margin:32px auto 72px;
     }
 
-    .shell {
-      max-width: var(--max-width);
-      margin: 0 auto;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 28px;
-      padding: 8px 2px;
-    }
-
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      background: #111111;
-      color: #ffffff;
-      display: grid;
-      place-items: center;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      box-shadow: var(--shadow);
-      flex-shrink: 0;
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .brand-title {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      line-height: 1;
-    }
-
-    .brand-subtitle {
-      font-size: 13px;
-      color: var(--subtle);
-      letter-spacing: 0.08em;
-    }
-
-    .clock {
-      font-size: 14px;
-      color: var(--subtle);
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .hero {
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-xl);
-      padding: 30px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      margin-bottom: 24px;
-    }
-
-    .hero-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    .hero-copy h1 {
-      font-size: clamp(34px, 5vw, 56px);
-      line-height: 0.95;
-      font-weight: 750;
-      letter-spacing: -0.04em;
-      margin-bottom: 12px;
-    }
-
-    .hero-copy p {
-      color: var(--subtle);
-      font-size: 15px;
-      max-width: 680px;
-      line-height: 1.7;
-    }
-
-    .hero-meta {
-      color: var(--subtle);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .search-wrap {
-      position: relative;
-    }
-
-    .search-input {
-      width: 100%;
-      height: 60px;
-      border: 1px solid transparent;
-      outline: none;
-      border-radius: 18px;
-      padding: 0 18px 0 52px;
-      background: #ffffff;
-      color: var(--text);
-      font-size: 16px;
-      box-shadow: inset 0 0 0 1px var(--line);
-      transition: 0.25s ease;
-    }
-
-    .search-input:focus {
-      border-color: var(--line-strong);
-      box-shadow: inset 0 0 0 1px var(--line-strong), 0 8px 20px rgba(0, 0, 0, 0.04);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 18px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 17px;
-      color: var(--subtle);
-      pointer-events: none;
-    }
-
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 26px;
-    }
-
-    .filter-chip {
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.7);
-      color: var(--text);
-      padding: 10px 15px;
-      border-radius: 999px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: 0.22s ease;
-      user-select: none;
-    }
-
-    .filter-chip:hover {
-      border-color: var(--line-strong);
-      transform: translateY(-1px);
-    }
-
-    .filter-chip.active {
-      background: #111111;
-      color: #ffffff;
-      border-color: #111111;
-    }
-
-    .section {
-      margin-bottom: 34px;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      margin-bottom: 14px;
-      padding: 0 2px;
-    }
-
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .section-count {
-      font-size: 12px;
-      color: var(--subtle);
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      display: block;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      box-shadow: var(--shadow);
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:22px;
+      position:sticky;
+      top:0;
+      z-index:20;
+      padding:14px 0;
       backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+      background:linear-gradient(to bottom, rgba(11,11,12,.86), rgba(11,11,12,.36));
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--line-strong);
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      min-width:0;
     }
 
-    .card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 16px;
+    .brand-title{
+      font-size:20px;
+      font-weight:700;
+      line-height:1;
+      white-space:nowrap;
     }
 
-    .site-badge {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: #111111;
-      color: #ffffff;
-      display: grid;
-      place-items: center;
-      font-size: 16px;
-      font-weight: 700;
-      flex-shrink: 0;
-      letter-spacing: 0.03em;
+    .brand-sub{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1;
     }
 
-    .site-arrow {
-      color: var(--subtle);
-      font-size: 16px;
+    .tools{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
 
-    .card h3 {
-      font-size: 17px;
-      line-height: 1.25;
-      margin-bottom: 7px;
-      font-weight: 650;
+    .input,
+    .select,
+    .btn{
+      border:none;
+      outline:none;
+      color:var(--text);
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:16px;
+      height:42px;
+      padding:0 14px;
+      transition:.2s ease;
+      box-shadow:var(--shadow);
     }
 
-    .card p {
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--subtle);
-      min-height: 42px;
+    .input{
+      min-width:240px;
     }
 
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
+    .input::placeholder{
+      color:var(--muted);
     }
 
-    .tag {
-      font-size: 11px;
-      color: var(--subtle);
-      border: 1px solid var(--line);
-      padding: 6px 9px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.78);
+    .input:focus,
+    .select:focus,
+    .btn:hover{
+      border-color:var(--line-2);
+      background:var(--panel-2);
     }
 
-    .hidden {
-      display: none !important;
+    .btn{
+      cursor:pointer;
+      font-weight:600;
     }
 
-    .empty-state {
-      display: none;
-      margin-top: 20px;
-      padding: 26px;
-      border-radius: 22px;
-      border: 1px dashed var(--line-strong);
-      color: var(--subtle);
-      text-align: center;
-      background: rgba(255, 255, 255, 0.58);
+    .btn.ghost{
+      background:transparent;
+      box-shadow:none;
     }
 
-    .footer {
-      margin-top: 42px;
-      padding: 0 2px;
-      color: var(--subtle);
-      font-size: 12px;
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+    .btn.danger{
+      color:#ffb6b6;
     }
 
-    @media (max-width: 900px) {
-      .hero {
-        padding: 24px;
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-bottom:24px;
+    }
+
+    .section{
+      margin-bottom:34px;
+    }
+
+    .section-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .section-title{
+      font-size:13px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:1.8px;
+    }
+
+    .section-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(180px, 1fr));
+      gap:12px;
+    }
+
+    .card{
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:92px;
+      padding:16px;
+      border-radius:20px;
+      text-decoration:none;
+      color:var(--text);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      transition:transform .18s ease, border-color .18s ease, background .18s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card:hover{
+      transform:translateY(-3px);
+      border-color:var(--line-2);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+
+    .card-title{
+      font-size:15px;
+      font-weight:650;
+      line-height:1.35;
+      word-break:break-word;
+    }
+
+    .card-url{
+      margin-top:10px;
+      font-size:11px;
+      color:var(--muted);
+      word-break:break-all;
+      line-height:1.45;
+    }
+
+    .card-edit{
+      position:absolute;
+      right:10px;
+      top:10px;
+      display:none;
+      gap:6px;
+    }
+
+    .edit-mode .card-edit{
+      display:flex;
+    }
+
+    .mini{
+      border:none;
+      cursor:pointer;
+      height:28px;
+      min-width:28px;
+      padding:0 8px;
+      border-radius:10px;
+      color:var(--text);
+      background:rgba(0,0,0,.42);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .mini:hover{
+      background:rgba(255,255,255,.09);
+    }
+
+    .empty{
+      border:1px dashed var(--line-2);
+      border-radius:20px;
+      padding:24px;
+      text-align:center;
+      color:var(--muted);
+      background:rgba(255,255,255,.015);
+    }
+
+    .footer{
+      margin-top:44px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+
+    .modal-mask{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.56);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:999;
+      padding:18px;
+    }
+
+    .modal-mask.show{
+      display:flex;
+    }
+
+    .modal{
+      width:min(560px, 100%);
+      border-radius:26px;
+      background:linear-gradient(180deg, #151619, #0f1012);
+      border:1px solid var(--line);
+      box-shadow:0 30px 80px rgba(0,0,0,.5);
+      padding:18px;
+    }
+
+    .modal-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .modal-title{
+      font-size:18px;
+      font-weight:700;
+    }
+
+    .form{
+      display:grid;
+      gap:12px;
+    }
+
+    .field{
+      display:grid;
+      gap:8px;
+    }
+
+    .label{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .field input,
+    .field select{
+      width:100%;
+      height:46px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#111214;
+      color:var(--text);
+      padding:0 14px;
+      outline:none;
+    }
+
+    .field input:focus,
+    .field select:focus{
+      border-color:var(--line-2);
+    }
+
+    .modal-actions{
+      margin-top:16px;
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    @media (max-width: 720px){
+      .topbar{
+        flex-direction:column;
+        align-items:stretch;
       }
-
-      .hero-head {
-        flex-direction: column;
-        align-items: flex-start;
+      .tools{
+        justify-content:stretch;
       }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
+      .input{
+        min-width:unset;
+        width:100%;
       }
-
-      .clock {
-        white-space: normal;
+      .grid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
       }
     }
 
-    @media (max-width: 640px) {
-      body {
-        padding: 16px 12px 36px;
-      }
-
-      .brand-title {
-        font-size: 24px;
-      }
-
-      .brand-mark {
-        width: 42px;
-        height: 42px;
-        border-radius: 14px;
-      }
-
-      .hero {
-        border-radius: 24px;
-        padding: 20px;
-      }
-
-      .hero-copy h1 {
-        font-size: 34px;
-      }
-
-      .search-input {
-        height: 54px;
-        font-size: 15px;
-        padding-left: 48px;
-      }
-
-      .card-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card {
-        padding: 16px;
+    @media (max-width: 480px){
+      .grid{
+        grid-template-columns:1fr;
       }
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header class="topbar">
-      <div class="brand-wrap">
-        <div class="brand-mark">夜</div>
-        <div class="brand-text">
-          <div class="brand-title">夜遊天国</div>
-          <div class="brand-subtitle">YORU PARADISE NAVIGATION</div>
-        </div>
-      </div>
-      <div class="clock" id="clock">正在载入时间...</div>
-    </header>
-
-    <section class="hero">
-      
+  <div class="wrap" id="app">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-title">夜遊天</div>
+        <div class="brand-sub">极简导航 · 无图标 · 可前台编辑</div>
       </div>
 
-      <div class="search-wrap">
-        <span class="search-icon">⌕</span>
-        <input
-          id="searchInput"
-          class="search-input"
-          type="text"
-          placeholder="搜索网站 / 分类 / 关键词"
-        />
+      <div class="tools">
+        <input id="searchInput" class="input" type="text" placeholder="搜索网站 / 分类" />
+        <button id="toggleEditBtn" class="btn">进入编辑</button>
+        <button id="addCategoryBtn" class="btn ghost">新增分类</button>
+        <button id="exportBtn" class="btn ghost">导出数据</button>
+        <button id="resetBtn" class="btn ghost danger">恢复默认</button>
       </div>
-    </section>
+    </div>
 
-    <nav class="toolbar" id="toolbar">
-      <button class="filter-chip active" data-filter="all">全部</button>
-      <button class="filter-chip" data-filter="AI">AI</button>
-      <button class="filter-chip" data-filter="Design">Design</button>
-      <button class="filter-chip" data-filter="Tools">Tools</button>
-      <button class="filter-chip" data-filter="Media">Media</button>
-    </nav>
+    <div id="content"></div>
 
-    <main id="sections">
-      <section class="section" data-section="AI">
-        <div class="section-header">
-          <div class="section-title">AI</div>
-          <div class="section-count">2 links</div>
+    <div class="footer">
+      夜遊天 · Personal Navigation · GitHub Pages
+    </div>
+  </div>
+
+  <div class="modal-mask" id="modalMask">
+    <div class="modal">
+      <div class="modal-head">
+        <div class="modal-title" id="modalTitle">新增</div>
+        <button class="mini" id="closeModalBtn">×</button>
+      </div>
+
+      <form class="form" id="modalForm">
+        <div class="field" id="fieldCategoryName">
+          <div class="label">分类名称</div>
+          <input type="text" id="categoryNameInput" placeholder="例如：AI / 工作 / 影音" />
         </div>
-  <div class="card-grid">
 
-  <a class="card" href="https://chatgpt.com" target="_blank" data-keywords="ai chatgpt 对话 写作" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">C</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>ChatGPT</h3>
-    <p>对话、写作、信息整理</p>
-    <div class="card-tags">
-      <span class="tag">AI</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://claude.ai" target="_blank" data-keywords="ai claude 长文本" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">C</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>Claude</h3>
-    <p>长文本处理</p>
-    <div class="card-tags">
-      <span class="tag">AI</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://www.perplexity.ai" target="_blank" data-keywords="perplexity 搜索 ai 引擎" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">P</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>Perplexity</h3>
-    <p>AI搜索引擎</p>
-    <div class="card-tags">
-      <span class="tag">Search</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://gemini.google.com" target="_blank" data-keywords="gemini google ai" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">G</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>Gemini</h3>
-    <p>Google AI</p>
-    <div class="card-tags">
-      <span class="tag">Google</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://www.doubao.com" target="_blank" data-keywords="豆包 字节 ai" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">豆</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>豆包</h3>
-    <p>字节AI助手</p>
-    <div class="card-tags">
-      <span class="tag">China</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://grok.x.ai" target="_blank" data-keywords="grok xai 马斯克 ai" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">G</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>Grok</h3>
-    <p>X / Elon AI</p>
-    <div class="card-tags">
-      <span class="tag">XAI</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://yuanbao.tencent.com" target="_blank" data-keywords="元宝 腾讯 ai" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">元</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>元宝</h3>
-    <p>腾讯AI助手</p>
-    <div class="card-tags">
-      <span class="tag">Tencent</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://jimeng.jianying.com" target="_blank" data-keywords="即梦 ai 视频" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">梦</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>即梦</h3>
-    <p>AI视频生成</p>
-    <div class="card-tags">
-      <span class="tag">Video</span>
-    </div>
-  </a>
-
-  <a class="card" href="https://chat.deepseek.com" target="_blank" data-keywords="deepseek ai 国产" data-category="AI">
-    <div class="card-top">
-      <div class="site-badge">D</div>
-      <div class="site-arrow">↗</div>
-    </div>
-    <h3>DeepSeek</h3>
-    <p>国产大模型</p>
-    <div class="card-tags">
-      <span class="tag">China</span>
-    </div>
-  </a>
-
-</div>
-          </a>
-
-          <a
-            class="card"
-            href="https://translate.google.com"
-            target="_blank"
-            data-keywords="google translate 翻译 工具 语言"
-            data-category="Tools"
-          >
-            <div class="card-top">
-              <div class="site-badge">G</div>
-              <div class="site-arrow">↗</div>
-            </div>
-            <h3>Google Translate</h3>
-            <p>快速翻译、跨语言检索和短句理解。</p>
-            <div class="card-tags">
-              <span class="tag">Translate</span>
-              <span class="tag">Language</span>
-            </div>
-          </a>
+        <div class="field" id="fieldCategorySelect">
+          <div class="label">选择分类</div>
+          <select id="categorySelect"></select>
         </div>
-      </section>
 
-      <section class="section" data-section="Media">
-        <div class="section-header">
-          <div class="section-title">Media</div>
-          <div class="section-count">2 links</div>
+        <div class="field" id="fieldLinkTitle">
+          <div class="label">网站名称</div>
+          <input type="text" id="linkTitleInput" placeholder="例如：ChatGPT" />
         </div>
-        <div class="card-grid">
-          <a
-            class="card"
-            href="https://www.bilibili.com"
-            target="_blank"
-            data-keywords="bilibili 哔哩哔哩 视频 学习 娱乐"
-            data-category="Media"
-          >
-            <div class="card-top">
-              <div class="site-badge">B</div>
-              <div class="site-arrow">↗</div>
-            </div>
-            <h3>Bilibili</h3>
-            <p>视频内容、学习区、兴趣社区。</p>
-            <div class="card-tags">
-              <span class="tag">Video</span>
-              <span class="tag">Community</span>
-            </div>
-          </a>
 
-          <a
-            class="card"
-            href="https://www.youtube.com"
-            target="_blank"
-            data-keywords="youtube 视频 全球 内容 频道"
-            data-category="Media"
-          >
-            <div class="card-top">
-              <div class="site-badge">Y</div>
-              <div class="site-arrow">↗</div>
-            </div>
-            <h3>YouTube</h3>
-            <p>全球视频平台，适合内容发现与订阅。</p>
-            <div class="card-tags">
-              <span class="tag">Global</span>
-              <span class="tag">Streaming</span>
-            </div>
-          </a>
+        <div class="field" id="fieldLinkUrl">
+          <div class="label">网址</div>
+          <input type="text" id="linkUrlInput" placeholder="例如：https://chatgpt.com" />
         </div>
-      </section>
-    </main>
 
-    <div class="empty-state" id="emptyState">没有找到匹配结果，换个关键词试试。</div>
-
-    <footer class="footer">
-      <span>夜遊天国 · Personal Navigation</span>
-      <span>Built with GitHub Pages</span>
-    </footer>
+        <div class="modal-actions">
+          <button type="button" class="btn ghost" id="cancelBtn">取消</button>
+          <button type="submit" class="btn" id="saveBtn">保存</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>
+    const STORAGE_KEY = "yeyoutian_nav_data_v2";
+
+    const defaultData = [
+      {
+        name: "AI",
+        links: [
+          { title: "ChatGPT", url: "https://chatgpt.com" },
+          { title: "Claude", url: "https://claude.ai" },
+          { title: "Perplexity", url: "https://www.perplexity.ai" },
+          { title: "Gemini", url: "https://gemini.google.com" },
+          { title: "豆包", url: "https://www.doubao.com" },
+          { title: "Grok", url: "https://grok.x.ai" },
+          { title: "元宝", url: "https://yuanbao.tencent.com" },
+          { title: "即梦", url: "https://jimeng.jianying.com" },
+          { title: "DeepSeek", url: "https://chat.deepseek.com" }
+        ]
+      },
+      {
+        name: "Media",
+        links: [
+          { title: "Bilibili", url: "https://www.bilibili.com" },
+          { title: "YouTube", url: "https://www.youtube.com" },
+          { title: "小红书", url: "https://www.xiaohongshu.com" }
+        ]
+      },
+      {
+        name: "Tools",
+        links: [
+          { title: "GitHub", url: "https://github.com" },
+          { title: "Notion", url: "https://www.notion.so" },
+          { title: "Figma", url: "https://www.figma.com" }
+        ]
+      }
+    ];
+
+    let state = loadData();
+    let isEditMode = false;
+    let currentModalMode = "";
+    let editingCategoryIndex = null;
+    let editingLinkIndex = null;
+    let searchKeyword = "";
+
+    const contentEl = document.getElementById("content");
     const searchInput = document.getElementById("searchInput");
-    const filterChips = document.querySelectorAll(".filter-chip");
-    const cards = document.querySelectorAll(".card");
-    const sections = document.querySelectorAll(".section");
-    const emptyState = document.getElementById("emptyState");
-    const clock = document.getElementById("clock");
+    const toggleEditBtn = document.getElementById("toggleEditBtn");
+    const addCategoryBtn = document.getElementById("addCategoryBtn");
+    const exportBtn = document.getElementById("exportBtn");
+    const resetBtn = document.getElementById("resetBtn");
 
-    let activeFilter = "all";
+    const modalMask = document.getElementById("modalMask");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalForm = document.getElementById("modalForm");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
 
-    function updateClock() {
-      const now = new Date();
-      const formatted = now.toLocaleString("zh-CN", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        weekday: "short"
-      });
-      clock.textContent = formatted;
+    const fieldCategoryName = document.getElementById("fieldCategoryName");
+    const fieldCategorySelect = document.getElementById("fieldCategorySelect");
+    const fieldLinkTitle = document.getElementById("fieldLinkTitle");
+    const fieldLinkUrl = document.getElementById("fieldLinkUrl");
+
+    const categoryNameInput = document.getElementById("categoryNameInput");
+    const categorySelect = document.getElementById("categorySelect");
+    const linkTitleInput = document.getElementById("linkTitleInput");
+    const linkUrlInput = document.getElementById("linkUrlInput");
+
+    function loadData(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return structuredClone(defaultData);
+        const parsed = JSON.parse(raw);
+        if(Array.isArray(parsed)) return parsed;
+        return structuredClone(defaultData);
+      }catch(e){
+        return structuredClone(defaultData);
+      }
     }
 
-    function applyFilters() {
-      const keyword = searchInput.value.trim().toLowerCase();
-      let visibleCards = 0;
+    function saveData(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
 
-      cards.forEach(card => {
-        const text = card.innerText.toLowerCase();
-        const keywords = (card.dataset.keywords || "").toLowerCase();
-        const category = (card.dataset.category || "").toLowerCase();
+    function normalizeUrl(url){
+      const value = url.trim();
+      if(!value) return "";
+      if(/^https?:\/\//i.test(value)) return value;
+      return "https://" + value;
+    }
 
-        const matchesKeyword =
-          !keyword || text.includes(keyword) || keywords.includes(keyword);
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#39;");
+    }
 
-        const matchesCategory =
-          activeFilter === "all" || category === activeFilter.toLowerCase();
+    function render(){
+      document.body.classList.toggle("edit-mode", isEditMode);
+      toggleEditBtn.textContent = isEditMode ? "退出编辑" : "进入编辑";
 
-        if (matchesKeyword && matchesCategory) {
-          card.classList.remove("hidden");
-          visibleCards++;
-        } else {
-          card.classList.add("hidden");
+      const keyword = searchKeyword.trim().toLowerCase();
+      let html = "";
+
+      const filteredSections = state
+        .map((section, sectionIndex) => {
+          const matchedLinks = section.links.filter(link => {
+            if(!keyword) return true;
+            return (
+              section.name.toLowerCase().includes(keyword) ||
+              link.title.toLowerCase().includes(keyword) ||
+              link.url.toLowerCase().includes(keyword)
+            );
+          });
+
+          return {
+            ...section,
+            _sectionIndex: sectionIndex,
+            links: matchedLinks
+          };
+        })
+        .filter(section => section.links.length > 0 || (!keyword && section.links.length === 0));
+
+      if(filteredSections.length === 0){
+        contentEl.innerHTML = `<div class="empty">没有找到匹配结果</div>`;
+        return;
+      }
+
+      filteredSections.forEach(section => {
+        html += `
+          <section class="section">
+            <div class="section-head">
+              <div class="section-title">${escapeHtml(section.name)}</div>
+              ${
+                isEditMode
+                  ? `
+                  <div class="section-actions">
+                    <button class="mini" onclick="openAddLinkModal(${section._sectionIndex})">加链接</button>
+                    <button class="mini" onclick="openRenameCategoryModal(${section._sectionIndex})">改名</button>
+                    <button class="mini" onclick="deleteCategory(${section._sectionIndex})">删分类</button>
+                  </div>
+                  `
+                  : ""
+              }
+            </div>
+
+            ${
+              section.links.length
+                ? `<div class="grid">
+                    ${section.links.map(link => {
+                      const originalSection = state[section._sectionIndex];
+                      const linkIndex = originalSection.links.findIndex(
+                        item => item.title === link.title && item.url === link.url
+                      );
+
+                      return `
+                        <a class="card" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+                          <div class="card-edit">
+                            <button class="mini" onclick="event.preventDefault(); openEditLinkModal(${section._sectionIndex}, ${linkIndex})">改</button>
+                            <button class="mini" onclick="event.preventDefault(); deleteLink(${section._sectionIndex}, ${linkIndex})">删</button>
+                          </div>
+                          <div class="card-title">${escapeHtml(link.title)}</div>
+                          <div class="card-url">${escapeHtml(link.url)}</div>
+                        </a>
+                      `;
+                    }).join("")}
+                  </div>`
+                : `<div class="empty">这个分类还没有链接</div>`
+            }
+          </section>
+        `;
+      });
+
+      contentEl.innerHTML = html;
+    }
+
+    function fillCategoryOptions(selectedIndex = 0){
+      categorySelect.innerHTML = state.map((section, idx) => {
+        return `<option value="${idx}" ${idx === selectedIndex ? "selected" : ""}>${escapeHtml(section.name)}</option>`;
+      }).join("");
+    }
+
+    function showModal(){
+      modalMask.classList.add("show");
+    }
+
+    function hideModal(){
+      modalMask.classList.remove("show");
+      modalForm.reset();
+      editingCategoryIndex = null;
+      editingLinkIndex = null;
+      currentModalMode = "";
+    }
+
+    function setModalFields(mode){
+      const config = {
+        addCategory: {
+          title: "新增分类",
+          showCategoryName: true,
+          showCategorySelect: false,
+          showLinkTitle: false,
+          showLinkUrl: false
+        },
+        renameCategory: {
+          title: "修改分类名",
+          showCategoryName: true,
+          showCategorySelect: false,
+          showLinkTitle: false,
+          showLinkUrl: false
+        },
+        addLink: {
+          title: "新增链接",
+          showCategoryName: false,
+          showCategorySelect: true,
+          showLinkTitle: true,
+          showLinkUrl: true
+        },
+        editLink: {
+          title: "编辑链接",
+          showCategoryName: false,
+          showCategorySelect: true,
+          showLinkTitle: true,
+          showLinkUrl: true
         }
-      });
+      }[mode];
 
-      sections.forEach(section => {
-        const sectionCards = section.querySelectorAll(".card");
-        const visibleInSection = [...sectionCards].filter(card => !card.classList.contains("hidden")).length;
-        section.classList.toggle("hidden", visibleInSection === 0);
-      });
-
-      emptyState.style.display = visibleCards === 0 ? "block" : "none";
+      modalTitle.textContent = config.title;
+      fieldCategoryName.style.display = config.showCategoryName ? "grid" : "none";
+      fieldCategorySelect.style.display = config.showCategorySelect ? "grid" : "none";
+      fieldLinkTitle.style.display = config.showLinkTitle ? "grid" : "none";
+      fieldLinkUrl.style.display = config.showLinkUrl ? "grid" : "none";
     }
 
-    filterChips.forEach(chip => {
-      chip.addEventListener("click", () => {
-        filterChips.forEach(item => item.classList.remove("active"));
-        chip.classList.add("active");
-        activeFilter = chip.dataset.filter;
-        applyFilters();
-      });
+    function openAddCategoryModal(){
+      currentModalMode = "addCategory";
+      setModalFields(currentModalMode);
+      categoryNameInput.value = "";
+      showModal();
+      setTimeout(() => categoryNameInput.focus(), 30);
+    }
+
+    function openRenameCategoryModal(sectionIndex){
+      currentModalMode = "renameCategory";
+      editingCategoryIndex = sectionIndex;
+      setModalFields(currentModalMode);
+      categoryNameInput.value = state[sectionIndex].name;
+      showModal();
+      setTimeout(() => categoryNameInput.focus(), 30);
+    }
+
+    function openAddLinkModal(sectionIndex = 0){
+      currentModalMode = "addLink";
+      editingCategoryIndex = sectionIndex;
+      setModalFields(currentModalMode);
+      fillCategoryOptions(sectionIndex);
+      linkTitleInput.value = "";
+      linkUrlInput.value = "";
+      showModal();
+      setTimeout(() => linkTitleInput.focus(), 30);
+    }
+
+    function openEditLinkModal(sectionIndex, linkIndex){
+      currentModalMode = "editLink";
+      editingCategoryIndex = sectionIndex;
+      editingLinkIndex = linkIndex;
+      setModalFields(currentModalMode);
+      fillCategoryOptions(sectionIndex);
+
+      const link = state[sectionIndex].links[linkIndex];
+      linkTitleInput.value = link.title;
+      linkUrlInput.value = link.url;
+      showModal();
+      setTimeout(() => linkTitleInput.focus(), 30);
+    }
+
+    function deleteCategory(sectionIndex){
+      const name = state[sectionIndex]?.name || "这个分类";
+      if(!confirm(`确定删除分类「${name}」吗？分类下的所有链接也会一起删除。`)) return;
+      state.splice(sectionIndex, 1);
+      saveData();
+      render();
+    }
+
+    function deleteLink(sectionIndex, linkIndex){
+      const link = state[sectionIndex]?.links?.[linkIndex];
+      if(!link) return;
+      if(!confirm(`确定删除链接「${link.title}」吗？`)) return;
+      state[sectionIndex].links.splice(linkIndex, 1);
+      saveData();
+      render();
+    }
+
+    modalForm.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      if(currentModalMode === "addCategory"){
+        const name = categoryNameInput.value.trim();
+        if(!name) return alert("请输入分类名称");
+        state.push({ name, links: [] });
+        saveData();
+        hideModal();
+        render();
+        return;
+      }
+
+      if(currentModalMode === "renameCategory"){
+        const name = categoryNameInput.value.trim();
+        if(!name) return alert("请输入分类名称");
+        state[editingCategoryIndex].name = name;
+        saveData();
+        hideModal();
+        render();
+        return;
+      }
+
+      if(currentModalMode === "addLink"){
+        if(state.length === 0){
+          return alert("请先新增一个分类");
+        }
+        const sectionIndex = Number(categorySelect.value);
+        const title = linkTitleInput.value.trim();
+        const url = normalizeUrl(linkUrlInput.value);
+        if(!title) return alert("请输入网站名称");
+        if(!url) return alert("请输入网址");
+
+        state[sectionIndex].links.push({ title, url });
+        saveData();
+        hideModal();
+        render();
+        return;
+      }
+
+      if(currentModalMode === "editLink"){
+        const newSectionIndex = Number(categorySelect.value);
+        const title = linkTitleInput.value.trim();
+        const url = normalizeUrl(linkUrlInput.value);
+        if(!title) return alert("请输入网站名称");
+        if(!url) return alert("请输入网址");
+
+        const oldLink = state[editingCategoryIndex].links[editingLinkIndex];
+        if(!oldLink) return;
+
+        state[editingCategoryIndex].links.splice(editingLinkIndex, 1);
+
+        state[newSectionIndex].links.push({ title, url });
+        saveData();
+        hideModal();
+        render();
+      }
     });
 
-    searchInput.addEventListener("input", applyFilters);
+    searchInput.addEventListener("input", function(e){
+      searchKeyword = e.target.value || "";
+      render();
+    });
 
-    updateClock();
-    setInterval(updateClock, 60000);
-    applyFilters();
+    toggleEditBtn.addEventListener("click", function(){
+      isEditMode = !isEditMode;
+      render();
+    });
+
+    addCategoryBtn.addEventListener("click", function(){
+      openAddCategoryModal();
+    });
+
+    exportBtn.addEventListener("click", function(){
+      const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "night-nav-data.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    resetBtn.addEventListener("click", function(){
+      if(!confirm("确定恢复默认数据吗？你现在前台改过的内容会被覆盖。")) return;
+      state = structuredClone(defaultData);
+      saveData();
+      render();
+    });
+
+    closeModalBtn.addEventListener("click", hideModal);
+    cancelBtn.addEventListener("click", hideModal);
+    modalMask.addEventListener("click", function(e){
+      if(e.target === modalMask) hideModal();
+    });
+
+    window.openAddLinkModal = openAddLinkModal;
+    window.openEditLinkModal = openEditLinkModal;
+    window.openRenameCategoryModal = openRenameCategoryModal;
+    window.deleteCategory = deleteCategory;
+    window.deleteLink = deleteLink;
+
+    render();
   </script>
 </body>
-<section class="section" data-section="电影院">
-  <div class="section-header">
-    <div class="section-title">电影院</div>
-    <div class="section-count">2 links</div>
-  </div>
-  <div class="card-grid">
-    ...
-  </div>
-</section>
-
-
-  
 </html>
