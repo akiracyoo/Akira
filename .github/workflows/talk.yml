@@ -1,35 +1,38 @@
-name: Talk Publisher
+name: Talk
 
 on:
   workflow_dispatch:
     inputs:
-      text:
+      content:
         description: "内容"
         required: true
 
 jobs:
-  update:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Update talk.json
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update posts
         run: |
-          node <<EOF
-          const fs = require('fs');
-          const file = 'talk.json';
-          const data = JSON.parse(fs.readFileSync(file));
-          data.push({
-            text: "${{ github.event.inputs.text }}",
-            time: new Date().toISOString().slice(0,16).replace('T',' ')
-          });
-          fs.writeFileSync(file, JSON.stringify(data, null, 2));
-          EOF
+          FILE=posts.json
+
+          if [ ! -f $FILE ]; then
+            echo "[]" > $FILE
+          fi
+
+          CONTENT="${{ github.event.inputs.content }}"
+          TIME=$(date +"%Y-%m-%d %H:%M:%S")
+
+          jq ". += [{\"content\": \"$CONTENT\", \"time\": \"$TIME\"}]" $FILE > temp.json
+          mv temp.json $FILE
 
       - name: Commit
         run: |
-          git config user.name "bot"
-          git config user.email "bot@github.com"
-          git add talk.json
-          git commit -m "update talk"
+          git config user.name "akira"
+          git config user.email "akira@example.com"
+          git add posts.json
+          git commit -m "update talk" || echo "no changes"
           git push
