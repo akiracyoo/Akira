@@ -3,135 +3,135 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AKIRA</title>
+  <title>Talk</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     html, body {
       margin: 0;
       padding: 0;
-      background: #ffffff;
-      color: #111111;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
-        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: #fff;
+      color: #111;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 28px 20px 80px;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .topbar {
       position: sticky;
       top: 0;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #eeeeee;
       z-index: 10;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #eee;
+    }
+
+    .topbar-inner, .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     .topbar-inner {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 14px 20px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
     }
 
     .brand {
       font-size: 18px;
       font-weight: 700;
-      letter-spacing: 0.5px;
+      letter-spacing: .2px;
     }
 
-    .nav {
+    .top-actions {
       display: flex;
       align-items: center;
-      gap: 18px;
-      font-size: 14px;
-      color: #666666;
+      gap: 12px;
+      font-size: 13px;
+      color: #666;
     }
 
-    .nav a:hover {
-      color: #111111;
-    }
-
-    .hero {
-      padding: 26px 0 18px;
-      border-bottom: 1px solid #f0f0f0;
-      margin-bottom: 10px;
-    }
-
-    .hero-title {
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: 10px;
-    }
-
-    .hero-desc {
-      font-size: 14px;
-      line-height: 1.8;
-      color: #666666;
+    .page {
+      padding-top: 28px;
+      padding-bottom: 80px;
     }
 
     .composer {
-      padding: 20px 0;
+      margin-bottom: 28px;
+      padding-bottom: 22px;
       border-bottom: 1px solid #f0f0f0;
     }
 
-    .composer-box {
+    .composer.hidden { display: none; }
+
+    .composer textarea,
+    .auth-panel input {
       width: 100%;
-      min-height: 110px;
-      border: 1px solid #e8e8e8;
-      border-radius: 16px;
-      padding: 16px;
+      border: 1px solid #e5e5e5;
+      border-radius: 14px;
+      padding: 14px 16px;
       font-size: 15px;
       line-height: 1.8;
-      resize: vertical;
       outline: none;
-      color: #111111;
-      background: #ffffff;
+      background: #fff;
+      color: #111;
     }
 
-    .composer-box:focus {
+    .composer textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .composer textarea:focus,
+    .auth-panel input:focus {
       border-color: #cfcfcf;
     }
 
-    .composer-actions {
-      margin-top: 12px;
+    .row {
       display: flex;
-      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
     }
 
-    .btn {
+    button {
       appearance: none;
-      border: 1px solid #111111;
-      background: #111111;
-      color: #ffffff;
+      border: 1px solid #111;
+      background: #111;
+      color: #fff;
       border-radius: 999px;
-      padding: 10px 18px;
+      padding: 10px 16px;
       font-size: 14px;
       cursor: pointer;
-      transition: 0.2s ease;
     }
 
-    .btn:hover {
-      opacity: 0.88;
+    button.ghost {
+      background: #fff;
+      color: #111;
     }
 
-    .timeline {
-      margin-top: 8px;
+    .auth-panel {
+      margin-bottom: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .auth-panel.hidden { display: none; }
+
+    .auth-title {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .status {
+      font-size: 13px;
+      color: #666;
+      margin-top: 10px;
+      line-height: 1.7;
     }
 
     .post {
@@ -139,111 +139,98 @@
       border-bottom: 1px solid #f0f0f0;
     }
 
-    .post-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+    .time {
+      font-size: 12px;
+      color: #999;
       margin-bottom: 10px;
     }
 
-    .post-user {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .post-name {
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .post-meta {
-      font-size: 12px;
-      color: #888888;
-    }
-
-    .post-content {
+    .content {
       font-size: 16px;
       line-height: 1.95;
       white-space: pre-wrap;
       word-break: break-word;
-      color: #111111;
     }
 
     .post-actions {
-      display: flex;
-      gap: 18px;
       margin-top: 14px;
-      font-size: 13px;
-      color: #777777;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .post-actions span {
-      cursor: default;
-    }
-
-    .footer {
-      padding-top: 28px;
+    .post-actions button {
+      padding: 7px 12px;
       font-size: 12px;
-      color: #999999;
-      text-align: center;
+    }
+
+    .empty {
+      color: #999;
+      padding: 24px 0;
+      font-size: 14px;
     }
 
     @media (max-width: 640px) {
-      .hero-title {
-        font-size: 24px;
-      }
-
-      .post-content {
-        font-size: 15px;
-      }
-
-      .nav {
-        gap: 12px;
-        font-size: 13px;
-      }
+      .content { font-size: 15px; }
+      .brand { font-size: 17px; }
     }
   </style>
 </head>
 <body>
   <div class="topbar">
     <div class="topbar-inner">
-      <div class="brand">夜遊天 · 动态</div>
-      <div class="nav">
-        <a href="./index.html">返回首页</a>
+      <div class="brand">Talk</div>
+      <div class="top-actions">
+        <a href="./index.html">返回</a>
+        <span id="userStatus">未登录</span>
+        <button id="logoutBtn" class="ghost" style="display:none;">退出</button>
       </div>
     </div>
   </div>
 
   <main class="page">
-    <section class="hero">
-    </section>
-
-    <section class="composer">
-      <textarea
-        id="composer"
-        class="composer-box"
-        placeholder="写点什么。比如一句观点、一个瞬间、一条短评。"
-      ></textarea>
-      <div class="composer-actions">
-        <button id="publishBtn" class="btn">发布</button>
+    <section id="authPanel" class="auth-panel">
+      <div class="auth-title">只有你登录后可以发布，其他人只能浏览。</div>
+      <input id="emailInput" type="email" placeholder="邮箱" />
+      <div class="row">
+        <input id="passwordInput" type="password" placeholder="密码" />
       </div>
+      <div class="row">
+        <button id="loginBtn">登录</button>
+      </div>
+      <div id="authStatus" class="status"></div>
     </section>
 
-    <section class="timeline" id="timeline"></section>
+    <section id="composer" class="composer hidden">
+      <textarea id="contentInput" placeholder="写点什么。"></textarea>
+      <div class="row">
+        <button id="publishBtn">发布</button>
+      </div>
+      <div id="publishStatus" class="status"></div>
+    </section>
 
-    <div class="footer">夜遊天 · Minimal Feed</div>
+    <section id="list"></section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    const STORAGE_KEY = "akira_minifeed_posts_v1";
+    const SUPABASE_URL = "https://ellfewcyczznuczruggc.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_KoFk1TQNGj-8z1yCOB35mw_vyP6GfYK";
 
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const authPanel = document.getElementById("authPanel");
     const composer = document.getElementById("composer");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const authStatus = document.getElementById("authStatus");
     const publishBtn = document.getElementById("publishBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    const timeline = document.getElementById("timeline");
+    const publishStatus = document.getElementById("publishStatus");
+    const contentInput = document.getElementById("contentInput");
+    const list = document.getElementById("list");
+    const userStatus = document.getElementById("userStatus");
 
     function escapeHtml(str) {
       return String(str)
@@ -254,23 +241,9 @@
         .replaceAll("'", "&#39;");
     }
 
-    function loadPosts() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return defaultPosts;
-        const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) && parsed.length ? parsed : defaultPosts;
-      } catch (e) {
-        return defaultPosts;
-      }
-    }
-
-    function savePosts(posts) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
-    }
-
-    function nowString() {
-      const d = new Date();
+    function formatTime(value) {
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       const day = String(d.getDate()).padStart(2, "0");
@@ -279,54 +252,141 @@
       return `${y}-${m}-${day} ${h}:${min}`;
     }
 
-    function render() {
-      const posts = loadPosts();
+    async function renderPosts() {
+      const { data, error } = await supabase
+        .from("talk_posts")
+        .select("id, user_id, content, created_at")
+        .order("created_at", { ascending: false });
 
-      timeline.innerHTML = posts
-        .slice()
-        .reverse()
-        .map(
-          (post) => `
-            <article class="post">
-              <div class="post-head">
-                <div class="post-user">
-                  <div class="post-name">${escapeHtml(post.author)}</div>
-                  <div class="post-meta">${escapeHtml(post.time)}</div>
-                </div>
-              </div>
-              <div class="post-content">${escapeHtml(post.content)}</div>
-              <div class="post-actions">
-                <span>♡ 喜欢</span>
-                <span>↻ 转发</span>
-                <span>◦ 评论</span>
-              </div>
-            </article>
-          `
-        )
-        .join("");
-    }
-
-    publishBtn.addEventListener("click", () => {
-      const content = composer.value.trim();
-      if (!content) {
-        alert("先写点内容。");
+      if (error) {
+        list.innerHTML = `<div class="empty">加载失败：${escapeHtml(error.message)}</div>`;
         return;
       }
 
-      const posts = loadPosts();
-      posts.push({
-        id: Date.now(),
-        author: "夜遊",
-        time: nowString(),
+      if (!data || !data.length) {
+        list.innerHTML = `<div class="empty">还没有内容。</div>`;
+        return;
+      }
+
+      const { data: authData } = await supabase.auth.getUser();
+      const currentUserId = authData?.user?.id || null;
+
+      list.innerHTML = data.map(post => `
+        <article class="post">
+          <div class="time">${escapeHtml(formatTime(post.created_at))}</div>
+          <div class="content">${escapeHtml(post.content)}</div>
+          ${
+            currentUserId && currentUserId === post.user_id
+              ? `<div class="post-actions">
+                   <button class="ghost" onclick="deletePost(${post.id})">删除</button>
+                 </div>`
+              : ""
+          }
+        </article>
+      `).join("");
+    }
+
+    async function refreshAuthUI() {
+      const { data } = await supabase.auth.getUser();
+      const user = data?.user || null;
+
+      if (user) {
+        authPanel.classList.add("hidden");
+        composer.classList.remove("hidden");
+        logoutBtn.style.display = "inline-block";
+        userStatus.textContent = user.email || "已登录";
+      } else {
+        authPanel.classList.remove("hidden");
+        composer.classList.add("hidden");
+        logoutBtn.style.display = "none";
+        userStatus.textContent = "未登录";
+      }
+    }
+
+    loginBtn.addEventListener("click", async () => {
+      authStatus.textContent = "登录中...";
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        authStatus.textContent = "请输入邮箱和密码。";
+        return;
+      }
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        authStatus.textContent = "登录失败：" + error.message;
+        return;
+      }
+
+      authStatus.textContent = "登录成功。";
+      await refreshAuthUI();
+      await renderPosts();
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      await refreshAuthUI();
+      await renderPosts();
+    });
+
+    publishBtn.addEventListener("click", async () => {
+      publishStatus.textContent = "发布中...";
+      const content = contentInput.value.trim();
+
+      if (!content) {
+        publishStatus.textContent = "先写点内容。";
+        return;
+      }
+
+      const { data: userData } = await supabase.auth.getUser();
+      const user = userData?.user;
+
+      if (!user) {
+        publishStatus.textContent = "你还没有登录。";
+        await refreshAuthUI();
+        return;
+      }
+
+      const { error } = await supabase.from("talk_posts").insert({
+        user_id: user.id,
         content
       });
 
-      savePosts(posts);
-      composer.value = "";
-      render();
+      if (error) {
+        publishStatus.textContent = "发布失败：" + error.message;
+        return;
+      }
+
+      contentInput.value = "";
+      publishStatus.textContent = "已发布。";
+      await renderPosts();
     });
 
-    render();
+    async function deletePost(id) {
+      const ok = confirm("确定删除这条内容吗？");
+      if (!ok) return;
+
+      const { error } = await supabase.from("talk_posts").delete().eq("id", id);
+      if (error) {
+        alert("删除失败：" + error.message);
+        return;
+      }
+      await renderPosts();
+    }
+
+    window.deletePost = deletePost;
+
+    supabase.auth.onAuthStateChange(async () => {
+      await refreshAuthUI();
+      await renderPosts();
+    });
+
+    (async function init() {
+      await refreshAuthUI();
+      await renderPosts();
+    })();
   </script>
 </body>
 </html>
