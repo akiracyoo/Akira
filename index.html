@@ -3,84 +3,182 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>夜遊天國</title>
+<title>夜遊天国</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont;
-  background: #ffffff;
-  color: #000;
-}
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #ffffff;
+    color: #000;
+  }
 
-/* 容器 */
-.container {
-  max-width: 1000px;
-  margin: 80px auto;
-  padding: 0 20px;
-}
+  .container {
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 0 20px 60px;
+  }
 
-/* 分类 */
-.category {
-  margin-bottom: 50px;
-}
+  .category {
+    margin-bottom: 50px;
+  }
 
-.category-title {
-  font-size: 13px;
-  color: #999;
-  margin-bottom: 15px;
-  letter-spacing: 2px;
-}
+  .category-title {
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+  }
 
-/* 网格 */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-}
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
 
-/* 卡片 */
-.card {
-  display: block;
-  padding: 16px;
-  border-radius: 12px;
-  text-decoration: none;
-  color: #000;
-  background: #f5f5f5;
-  transition: all 0.2s ease;
-  font-size: 14px;
-}
+  .card {
+    display: block;
+    padding: 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #000;
+    background: #f5f5f5;
+    transition: all 0.2s ease;
+    font-size: 14px;
+    line-height: 1.5;
+  }
 
-.card:hover {
-  background: #eaeaea;
-  transform: translateY(-2px);
-}
+  .card:hover {
+    background: #eaeaea;
+    transform: translateY(-2px);
+  }
+
+  .status {
+    padding: 18px 20px;
+    border-radius: 12px;
+    background: #f7f7f7;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .error-box {
+    margin-top: 40px;
+    padding: 24px;
+    border-radius: 16px;
+    background: #fff5f5;
+    border: 1px solid #f1c7c7;
+  }
+
+  .error-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #b42318;
+    margin-bottom: 12px;
+  }
+
+  .error-text {
+    font-size: 14px;
+    color: #7a271a;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .tips {
+    margin-top: 18px;
+    padding-left: 18px;
+    color: #7a271a;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .tips li {
+    margin-bottom: 6px;
+  }
 </style>
 </head>
-
 <body>
 
-<div class="container" id="app"></div>
+<div class="container" id="app">
+  <div class="status">正在加载导航数据...</div>
+</div>
 
 <script>
-fetch("data.json")
-  .then(res => {
-    if (!res.ok) throw new Error("data.json 加载失败");
-    return res.json();
-  })
-  .then(data => {
-    const app = document.getElementById("app");
+  const app = document.getElementById("app");
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function renderError(message, rawError = "") {
+    app.innerHTML = `
+      <div class="error-box">
+        <div class="error-title">数据加载失败，没有渲染页面</div>
+        <div class="error-text">${escapeHtml(message)}</div>
+        ${rawError ? `<div class="error-text" style="margin-top:12px;">原始报错：${escapeHtml(rawError)}</div>` : ""}
+        <ul class="tips">
+          <li>检查 <code>data.json</code> 里有没有中文标点：<code>，</code> <code>：</code> <code>“”</code></li>
+          <li>检查最后一项后面有没有多余逗号</li>
+          <li>检查中括号 <code>[]</code> 和大括号 <code>{}</code> 是否成对</li>
+          <li>检查每个栏目之间是否用英文逗号 <code>,</code> 分隔</li>
+        </ul>
+      </div>
+    `;
+  }
+
+  function validateData(data) {
+    if (!Array.isArray(data)) {
+      throw new Error("data.json 顶层必须是数组 []");
+    }
+
+    data.forEach((category, categoryIndex) => {
+      if (typeof category !== "object" || category === null) {
+        throw new Error(`第 ${categoryIndex + 1} 个栏目不是对象`);
+      }
+
+      if (typeof category.name !== "string" || !category.name.trim()) {
+        throw new Error(`第 ${categoryIndex + 1} 个栏目缺少有效的 name`);
+      }
+
+      if (!Array.isArray(category.links)) {
+        throw new Error(`栏目「${category.name}」的 links 必须是数组`);
+      }
+
+      category.links.forEach((link, linkIndex) => {
+        if (typeof link !== "object" || link === null) {
+          throw new Error(`栏目「${category.name}」第 ${linkIndex + 1} 个链接不是对象`);
+        }
+
+        if (typeof link.title !== "string" || !link.title.trim()) {
+          throw new Error(`栏目「${category.name}」第 ${linkIndex + 1} 个链接缺少有效的 title`);
+        }
+
+        if (typeof link.url !== "string" || !link.url.trim()) {
+          throw new Error(`栏目「${category.name}」第 ${linkIndex + 1} 个链接缺少有效的 url`);
+        }
+      });
+    });
+  }
+
+  function renderData(data) {
+    app.innerHTML = "";
 
     data.forEach(category => {
       const div = document.createElement("div");
       div.className = "category";
 
       div.innerHTML = `
-        <div class="category-title">${category.name}</div>
+        <div class="category-title">${escapeHtml(category.name)}</div>
         <div class="grid">
           ${category.links.map(link => `
-            <a class="card" href="${link.url}" target="_blank" rel="noopener noreferrer">
-              ${link.title}
+            <a class="card" href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer">
+              ${escapeHtml(link.title)}
             </a>
           `).join("")}
         </div>
@@ -88,15 +186,34 @@ fetch("data.json")
 
       app.appendChild(div);
     });
-  })
-  .catch(err => {
-    document.getElementById("app").innerHTML = `
-      <div style="padding:40px;font-size:16px;color:#000;">
-        数据加载失败：请检查 data.json 格式是否正确
-      </div>
-    `;
-    console.error(err);
-  });
+  }
+
+  async function init() {
+    try {
+      const res = await fetch("./data.json?t=" + Date.now(), { cache: "no-store" });
+
+      if (!res.ok) {
+        throw new Error(`data.json 加载失败，HTTP 状态码：${res.status}`);
+      }
+
+      const text = await res.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (jsonError) {
+        throw new Error("data.json 不是合法 JSON。最常见原因：中文逗号、中文引号、少括号、少逗号。");
+      }
+
+      validateData(data);
+      renderData(data);
+    } catch (err) {
+      console.error(err);
+      renderError("请检查 data.json 格式是否正确。", err.message || String(err));
+    }
+  }
+
+  init();
 </script>
 
 </body>
