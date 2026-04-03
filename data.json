@@ -1,15 +1,15 @@
 [
   {
-    "name": "Yotuber",
+    "name": "YouTuber",
     "links": [
       { "title": "Go Harder飙车", "url": "https://www.youtube.com/@GoHarderOfficial" },
       { "title": "Gorillaflava飙车", "url": "https://www.youtube.com/@Gorillaflava" },
       { "title": "Hartnett Media日本飙车", "url": "https://www.youtube.com/@hartnettmedia" },
       { "title": "D.M.G Media日本飙车", "url": "https://www.youtube.com/@DMGMediaEdits" },
       { "title": "room Music飙车", "url": "https://www.youtube.com/@VroomMusic" },
-      { "title": "DEFY Productions飙车", "url": "https://www.youtube.com/@DEFYstudio" }
+      { "title": "DEFY Productions飙车", "url": "https://www.youtube.com/@DEFYstudio" },
       { "title": "日本旅行（航拍/城市）", "url": "https://www.youtube.com/@armadas_japan" },
-      { "title": "日本旅行（女生/静谧）", "url": "https://www.youtube.com/watch?v=K1BmX19R92w" },
+      { "title": "日本旅行（女生/静谧）", "url": "https://www.youtube.com/watch?v=K1BmX19R92w" }
     ]
   },
   {
@@ -84,4 +84,3 @@
     ]
   }
 ]
-
