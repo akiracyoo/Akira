@@ -64,7 +64,10 @@ body {
 
 <script>
 fetch("data.json")
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error("data.json 加载失败");
+    return res.json();
+  })
   .then(data => {
     const app = document.getElementById("app");
 
@@ -76,7 +79,7 @@ fetch("data.json")
         <div class="category-title">${category.name}</div>
         <div class="grid">
           ${category.links.map(link => `
-            <a class="card" href="${link.url}" target="_blank">
+            <a class="card" href="${link.url}" target="_blank" rel="noopener noreferrer">
               ${link.title}
             </a>
           `).join("")}
@@ -85,6 +88,14 @@ fetch("data.json")
 
       app.appendChild(div);
     });
+  })
+  .catch(err => {
+    document.getElementById("app").innerHTML = `
+      <div style="padding:40px;font-size:16px;color:#000;">
+        数据加载失败：请检查 data.json 格式是否正确
+      </div>
+    `;
+    console.error(err);
   });
 </script>
 
