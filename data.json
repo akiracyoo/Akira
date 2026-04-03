@@ -1,11 +1,5 @@
 [
   {
-    "name": "页面",
-    "links": [
-      { "title": "Talk", "url": "./talk.html" }
-    ]
-  },
-  {
     "name": "文章",
     "links": [
       { "title": "Matters", "url": "https://matters.town/" },
