@@ -315,6 +315,7 @@
 
       const { error } = await supabase.auth.signInWithPassword({ email, password });
 
+
       if (error) {
         authStatus.textContent = "登录失败：" + error.message;
         return;
