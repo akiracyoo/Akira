@@ -9,8 +9,6 @@
       { "title": "Threads下载器", "url": "https://lovethreads.net/zh-cn#google_vignette" },
       { "title": "繁简体转换", "url": "https://zhconvert.org/" },
       { "title": "中文文章在线排版", "url": "https://paiban.gaodun.com/" },
-      { "title": "豆包", "url": "https://www.doubao.com" },
-      { "title": "DeepSeek", "url": "https://chat.deepseek.com" }
     ]
   },
   {
@@ -18,31 +16,6 @@
     "links": [
       { "title": "中国人事考试网", "url": "http://www.cpta.com.cn" },
       { "title": "学信网", "url": "https://www.chsi.com.cn" }
-    ]
-  }
-]
-  {
-    "name": "AI",
-    "links": [
-      { "title": "ChatGPT", "url": "https://chatgpt.com" },
-      { "title": "Perplexity", "url": "https://www.perplexity.ai" },
-      { "title": "Gemini", "url": "https://gemini.google.com" },
-      { "title": "豆包", "url": "https://www.doubao.com" },
-      { "title": "DeepSeek", "url": "https://chat.deepseek.com" }
-    ]
-  },
-  {
-    "name": "职业考试",
-    "links": [
-      { "title": "中国人事考试网", "url": "http://www.cpta.com.cn" },
-      { "title": "学信网", "url": "https://www.chsi.com.cn" }
-    ]
-  },
-  {
-    "name": "常用",
-    "links": [
-      { "title": "B站", "url": "https://www.bilibili.com" },
-      { "title": "小红书", "url": "https://www.xiaohongshu.com" }
     ]
   }
 ]
