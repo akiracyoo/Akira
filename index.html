@@ -2,9 +2,8 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>夜遊天国</title>
-
   <style>
     * {
       box-sizing: border-box;
@@ -15,52 +14,52 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #ffffff;
-      color: #111;
-      padding: 60px 20px;
+      color: #111111;
+      padding: 56px 20px;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 0 auto;
     }
 
-    /* 搜索框 */
     .search {
+      margin-bottom: 40px;
       display: flex;
       justify-content: center;
-      margin-bottom: 50px;
     }
 
     .search input {
       width: 100%;
-      max-width: 600px;
-      padding: 16px 20px;
-      border-radius: 18px;
+      max-width: 620px;
+      height: 52px;
+      padding: 0 18px;
       border: 1px solid #e5e7eb;
-      background: #f5f5f5;
+      border-radius: 16px;
+      background: #f7f7f8;
+      color: #111111;
       font-size: 16px;
       outline: none;
-      transition: all 0.2s ease;
+      transition: 0.2s ease;
     }
 
     .search input:focus {
-      border-color: #111;
-      background: #fff;
+      background: #ffffff;
+      border-color: #111111;
     }
 
-    /* 分类 */
     .section {
-      margin-bottom: 40px;
+      margin-bottom: 34px;
     }
 
     .section-title {
-      font-size: 14px;
-      color: #888;
+      font-size: 13px;
+      color: #888888;
+      letter-spacing: 0.08em;
       margin-bottom: 14px;
-      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    /* 卡片 */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -68,29 +67,31 @@
     }
 
     .card {
+      display: block;
+      text-decoration: none;
+      color: #111111;
       background: #ffffff;
       border: 1px solid #e5e7eb;
-      border-radius: 16px;
+      border-radius: 18px;
       padding: 18px;
-      text-decoration: none;
-      color: #111;
-      transition: all 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .card:hover {
       transform: translateY(-3px);
-      border-color: #111;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border-color: #111111;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
     }
 
     .card h3 {
       font-size: 16px;
       margin-bottom: 6px;
+      font-weight: 600;
     }
 
     .card p {
       font-size: 13px;
-      color: #666;
+      color: #666666;
       line-height: 1.5;
     }
 
@@ -98,66 +99,73 @@
       display: none;
     }
 
+    @media (max-width: 640px) {
+      body {
+        padding: 28px 14px;
+      }
+
+      .search {
+        margin-bottom: 28px;
+      }
+
+      .search input {
+        height: 48px;
+        border-radius: 14px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
-
 <body>
-
   <div class="container">
-
-    <!-- 搜索 -->
     <div class="search">
       <input id="searchInput" type="text" placeholder="Search..." />
     </div>
 
-    <!-- AI -->
     <div class="section">
       <div class="section-title">AI</div>
       <div class="grid">
-        <a class="card" href="https://chatgpt.com" target="_blank" data-keywords="ai chatgpt 写作">
+        <a class="card" href="https://chatgpt.com" target="_blank" data-keywords="ai chatgpt 写作 对话">
           <h3>ChatGPT</h3>
           <p>AI 对话与写作</p>
         </a>
-
-        <a class="card" href="https://claude.ai" target="_blank" data-keywords="ai claude">
+        <a class="card" href="https://claude.ai" target="_blank" data-keywords="ai claude 长文本">
           <h3>Claude</h3>
           <p>长文本处理</p>
         </a>
       </div>
     </div>
 
-    <!-- 设计 -->
     <div class="section">
       <div class="section-title">Design</div>
       <div class="grid">
-        <a class="card" href="https://www.figma.com" target="_blank" data-keywords="figma 设计">
+        <a class="card" href="https://www.figma.com" target="_blank" data-keywords="figma 设计 ui 原型">
           <h3>Figma</h3>
           <p>UI / 原型设计</p>
         </a>
-
-        <a class="card" href="https://www.canva.com" target="_blank" data-keywords="canva">
+        <a class="card" href="https://www.canva.com" target="_blank" data-keywords="canva 海报 封面">
           <h3>Canva</h3>
           <p>海报与封面</p>
         </a>
       </div>
     </div>
 
-    <!-- 工具 -->
     <div class="section">
       <div class="section-title">Tools</div>
       <div class="grid">
-        <a class="card" href="https://www.notion.so" target="_blank" data-keywords="notion">
+        <a class="card" href="https://www.notion.so" target="_blank" data-keywords="notion 笔记 文档">
           <h3>Notion</h3>
           <p>笔记与知识库</p>
         </a>
-
-        <a class="card" href="https://translate.google.com" target="_blank" data-keywords="翻译">
+        <a class="card" href="https://translate.google.com" target="_blank" data-keywords="google translate 翻译">
           <h3>Google Translate</h3>
           <p>翻译工具</p>
         </a>
       </div>
     </div>
-
   </div>
 
   <script>
@@ -169,7 +177,7 @@
 
       cards.forEach(card => {
         const text = card.innerText.toLowerCase();
-        const keywords = card.dataset.keywords.toLowerCase();
+        const keywords = (card.dataset.keywords || "").toLowerCase();
 
         if (!keyword || text.includes(keyword) || keywords.includes(keyword)) {
           card.classList.remove("hidden");
@@ -179,6 +187,5 @@
       });
     });
   </script>
-
 </body>
 </html>
