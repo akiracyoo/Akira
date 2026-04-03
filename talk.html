@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>夜遊天 · 动态</title>
+  <title>夜遊 · 说</title>
   <style>
     * {
       box-sizing: border-box;
@@ -212,18 +212,12 @@
       <div class="brand">夜遊天 · 动态</div>
       <div class="nav">
         <a href="./index.html">返回首页</a>
-        <a href="javascript:void(0)" id="clearBtn">清空本地动态</a>
       </div>
     </div>
   </div>
 
   <main class="page">
     <section class="hero">
-      <div class="hero-title">一个极简版的微博页面</div>
-      <div class="hero-desc">
-        可以发短句、观点、碎片记录。白底，黑字，没有噪音。<br>
-        这里默认用浏览器本地保存，适合你先把子页面搭起来。
-      </div>
     </section>
 
     <section class="composer">
@@ -245,26 +239,6 @@
   <script>
     const STORAGE_KEY = "akira_minifeed_posts_v1";
 
-    const defaultPosts = [
-      {
-        id: 1,
-        author: "夜遊天",
-        time: "2026-04-03 15:30",
-        content: "真正高级的网页，不是功能很多。\n而是你点开它的时候，心里很安静。"
-      },
-      {
-        id: 2,
-        author: "夜遊天",
-        time: "2026-04-03 15:35",
-        content: "大多数导航站的问题，不是丑。\n是信息没有秩序。"
-      },
-      {
-        id: 3,
-        author: "夜遊天",
-        time: "2026-04-03 15:40",
-        content: "极简不是少。\n极简是删掉不重要的，只留下真正有用的。"
-      }
-    ];
 
     const composer = document.getElementById("composer");
     const publishBtn = document.getElementById("publishBtn");
@@ -349,13 +323,6 @@
 
       savePosts(posts);
       composer.value = "";
-      render();
-    });
-
-    clearBtn.addEventListener("click", () => {
-      const ok = confirm("确定清空本地动态吗？");
-      if (!ok) return;
-      localStorage.removeItem(STORAGE_KEY);
       render();
     });
 
