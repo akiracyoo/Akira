@@ -8,7 +8,7 @@
       { "title": "Threads下载器", "url": "https://threadsphotodownloader.com/zh" },
       { "title": "Threads下载器", "url": "https://lovethreads.net/zh-cn#google_vignette" },
       { "title": "繁简体转换", "url": "https://zhconvert.org/" },
-      { "title": "中文文章在线排版", "url": "https://paiban.gaodun.com/" },
+      { { "title": "中文文章在线排版", "url": "https://paiban.gaodun.com/" },
     ]
   },
   {
