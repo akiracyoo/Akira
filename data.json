@@ -1,21 +1,65 @@
 [
   {
+    "name": "文章",
+    "links": [
+      { "title": "Matters", "url": "https://matters.town/" },
+      { "title": "报导者", "url": "https://www.twreporter.org/" },
+      { "title": "Filmholic", "url": "https://filmaholic.tw/" },
+      { "title": "ZeroHedge", "url": "https://www.zerohedge.com/" }
+    ]
+  },
+  {
+    "name": "AI",
+    "links": [
+      { "title": "ChatGPT", "url": "https://chatgpt.com" },
+      { "title": "Claude", "url": "https://claude.ai" },
+      { "title": "Gemini", "url": "https://gemini.google.com" },
+      { "title": "Grok", "url": "https://grok.x.ai" },
+      { "title": "元宝", "url": "https://yuanbao.tencent.com" },
+      { "title": "豆包", "url": "https://www.doubao.com" },
+      { "title": "DeepSeek", "url": "https://chat.deepseek.com" },
+      { "title": "即梦", "url": "https://jimeng.jianying.com" }
+    ]
+  },
+  {
+    "name": "影像",
+    "links": [
+      { "title": "Pinterest", "url": "https://www.pinterest.com/" },
+      { "title": "NYX Gallery", "url": "https://nyx.gallery/" },
+      { "title": "Unsplash", "url": "https://unsplash.com/" },
+      { "title": "Pexels", "url": "https://www.pexels.com/zh-cn/" },
+      { "title": "Artgrid", "url": "https://artgrid.io/" }
+    ]
+  },
+  {
     "name": "工具",
     "links": [
-      { "title": "Youtube下载器", "url": "https://genyoutube.online/zh-cn2/" },
-      { "title": "Youtube下载器", "url": "https://y2down.cc/zhUH/" },
+      { "title": "Youtube下载器1", "url": "https://genyoutube.online/zh-cn2/" },
+      { "title": "Youtube下载器2", "url": "https://y2down.cc/zhUH/" },
       { "title": "Youtube字幕下载器", "url": "https://www.downloadyoutubesubtitles.com/zh" },
-      { "title": "Threads下载器", "url": "https://threadsphotodownloader.com/zh" },
-      { "title": "Threads下载器", "url": "https://lovethreads.net/zh-cn#google_vignette" },
+      { "title": "Threads下载器1", "url": "https://threadsphotodownloader.com/zh" },
+      { "title": "Threads下载器2", "url": "https://lovethreads.net/zh-cn#google_vignette" },
+      { "title": "小红书下载", "url": "https://dy.kukutool.com/xiaohongshu" },
+      { "title": "TikTok下载", "url": "https://tiksave.io/zh-cn" },
       { "title": "繁简体转换", "url": "https://zhconvert.org/" },
-      { "title": "中文文章在线排版", "url": "https://paiban.gaodun.com/" }
+      { "title": "中文排版", "url": "https://paiban.gaodun.com/" },
+      { "title": "微信编辑器1", "url": "https://md.doocs.org/" },
+      { "title": "微信编辑器2", "url": "https://wechat.jeffjade.com/" }
     ]
   },
   {
     "name": "职业考试",
     "links": [
-      { "title": "中国人事考试网", "url": "http://www.cpta.com.cn" },
-      { "title": "学信网", "url": "https://www.chsi.com.cn" }
+      { "title": "中国人事考试网", "url": "http://www.cpta.com.cn/" },
+      { "title": "学信网", "url": "https://www.chsi.com.cn/" }
+    ]
+  },
+  {
+    "name": "电影院",
+    "links": [
+      { "title": "OLEHD TV", "url": "https://www.olehdtv.com/" },
+      { "title": "4KVM", "url": "https://www.4kvm.net/" },
+      { "title": "NNYY", "url": "https://nnyy.in/" }
     ]
   }
 ]
