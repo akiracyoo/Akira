@@ -1,5 +1,11 @@
 [
   {
+  "name": "Talk",
+  "links": [
+    { "title": "Talk", "url": "./talk.html" }
+  ]
+},
+  {
     "name": "文章",
     "links": [
       { "title": "Matters", "url": "https://matters.town/" },
@@ -69,11 +75,5 @@
       { "title": "MissAV", "url": "https://missav.ai/" },
       { "title": "JAVLibrary", "url": "https://www.javlibrary.com/cn/publicgroup.php?id=11" }
     ]
-  },
-{
-  "name": "Talk",
-  "links": [
-    { "title": "Talk", "url": "./talk.html" }
-  ]
-}
+  }
 ]
