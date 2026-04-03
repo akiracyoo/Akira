@@ -1,0 +1,26 @@
+[
+  {
+    "name": "AI",
+    "links": [
+      { "title": "ChatGPT", "url": "https://chatgpt.com" },
+      { "title": "Perplexity", "url": "https://www.perplexity.ai" },
+      { "title": "Gemini", "url": "https://gemini.google.com" },
+      { "title": "豆包", "url": "https://www.doubao.com" },
+      { "title": "DeepSeek", "url": "https://chat.deepseek.com" }
+    ]
+  },
+  {
+    "name": "职业考试",
+    "links": [
+      { "title": "中国人事考试网", "url": "http://www.cpta.com.cn" },
+      { "title": "学信网", "url": "https://www.chsi.com.cn" }
+    ]
+  },
+  {
+    "name": "常用",
+    "links": [
+      { "title": "B站", "url": "https://www.bilibili.com" },
+      { "title": "小红书", "url": "https://www.xiaohongshu.com" }
+    ]
+  }
+]
