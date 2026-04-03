@@ -70,10 +70,10 @@
       { "title": "JAVLibrary", "url": "https://www.javlibrary.com/cn/publicgroup.php?id=11" }
     ]
   },
-  {
-    "name": "页面",
-    "links": [
-      { "title": "动态", "url": "./weibo.html" }
-    ]
-  }
+{
+  "name": "Talk",
+  "links": [
+    { "title": "Talk", "url": "./talk.html" }
+  ]
+}
 ]
