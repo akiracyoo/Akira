@@ -13,10 +13,6 @@ body {
   margin: 60px auto;
 }
 
-h2 {
-  font-weight: 500;
-}
-
 textarea {
   width: 100%;
   height: 120px;
@@ -59,6 +55,8 @@ button {
 
 <script>
 const repo = "akiracyoo/Akira";
+
+// 
 const token = "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";
 
 function publish() {
@@ -76,7 +74,9 @@ function publish() {
     },
     body: JSON.stringify({
       ref: "main",
-      inputs: { text }
+      inputs: {
+        content: text
+      }
     })
   }).then(() => {
     document.getElementById("status").innerText = "已发布（稍等刷新）";
@@ -90,10 +90,10 @@ function load() {
     .then(res => res.json())
     .then(data => {
       document.getElementById("list").innerHTML =
-        data.map(i => `
+        data.reverse().map(i => `
           <div class="post">
-            <div class="time">${i.time}</div>
-            <div>${i.text}</div>
+            <div class="time">${i.time || ""}</div>
+            <div>${i.content || ""}</div>
           </div>
         `).join("");
     });
