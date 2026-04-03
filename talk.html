@@ -1,393 +1,167 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Talk</title>
-  <style>
-    * { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      color: #111;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    }
-    a { color: inherit; text-decoration: none; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Talk</title>
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(255,255,255,.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #eee;
-    }
+<style>
+body {
+  margin: 0;
+  background: #fff;
+  color: #111;
+  font-family: -apple-system, BlinkMacSystemFont;
+}
 
-    .topbar-inner, .page {
-      max-width: 760px;
-      margin: 0 auto;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
+.topbar {
+  height: 56px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
 
-    .topbar-inner {
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-    .brand {
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: .2px;
-    }
+textarea {
+  width: 100%;
+  height: 120px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+}
 
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 13px;
-      color: #666;
-    }
+button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border: none;
+  background: #111;
+  color: #fff;
+  border-radius: 999px;
+  cursor: pointer;
+}
 
-    .page {
-      padding-top: 28px;
-      padding-bottom: 80px;
-    }
+.post {
+  border-bottom: 1px solid #eee;
+  padding: 16px 0;
+}
 
-    .composer {
-      margin-bottom: 28px;
-      padding-bottom: 22px;
-      border-bottom: 1px solid #f0f0f0;
-    }
+.time {
+  font-size: 12px;
+  color: #888;
+}
 
-    .composer.hidden { display: none; }
-
-    .composer textarea,
-    .auth-panel input {
-      width: 100%;
-      border: 1px solid #e5e5e5;
-      border-radius: 14px;
-      padding: 14px 16px;
-      font-size: 15px;
-      line-height: 1.8;
-      outline: none;
-      background: #fff;
-      color: #111;
-    }
-
-    .composer textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .composer textarea:focus,
-    .auth-panel input:focus {
-      border-color: #cfcfcf;
-    }
-
-    .row {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      appearance: none;
-      border: 1px solid #111;
-      background: #111;
-      color: #fff;
-      border-radius: 999px;
-      padding: 10px 16px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    button.ghost {
-      background: #fff;
-      color: #111;
-    }
-
-    .auth-panel {
-      margin-bottom: 28px;
-      padding-bottom: 22px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .auth-panel.hidden { display: none; }
-
-    .auth-title {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 12px;
-    }
-
-    .status {
-      font-size: 13px;
-      color: #666;
-      margin-top: 10px;
-      line-height: 1.7;
-    }
-
-    .post {
-      padding: 22px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .time {
-      font-size: 12px;
-      color: #999;
-      margin-bottom: 10px;
-    }
-
-    .content {
-      font-size: 16px;
-      line-height: 1.95;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .post-actions {
-      margin-top: 14px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .post-actions button {
-      padding: 7px 12px;
-      font-size: 12px;
-    }
-
-    .empty {
-      color: #999;
-      padding: 24px 0;
-      font-size: 14px;
-    }
-
-    @media (max-width: 640px) {
-      .content { font-size: 15px; }
-      .brand { font-size: 17px; }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">Talk</div>
-      <div class="top-actions">
-        <a href="./index.html">返回</a>
-        <span id="userStatus">未登录</span>
-        <button id="logoutBtn" class="ghost" style="display:none;">退出</button>
-      </div>
-    </div>
-  </div>
 
-  <main class="page">
-    <section id="authPanel" class="auth-panel">
-      <div class="auth-title">只有你登录后可以发布，其他人只能浏览。</div>
-      <input id="emailInput" type="email" placeholder="邮箱" />
-      <div class="row">
-        <input id="passwordInput" type="password" placeholder="密码" />
-      </div>
-      <div class="row">
-        <button id="loginBtn">登录</button>
-      </div>
-      <div id="authStatus" class="status"></div>
-    </section>
+<div class="topbar">
+  <div>Talk</div>
+  <a href="./index.html">返回</a>
+</div>
 
-    <section id="composer" class="composer hidden">
-      <textarea id="contentInput" placeholder="写点什么。"></textarea>
-      <div class="row">
-        <button id="publishBtn">发布</button>
-      </div>
-      <div id="publishStatus" class="status"></div>
-    </section>
+<div class="container">
 
-    <section id="list"></section>
-  </main>
+  <textarea id="input" placeholder="写点什么..."></textarea>
+  <button onclick="publish()">发布</button>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://ellfewcyczznuczruggc.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_KoFk1TQNGj-8z1yCOB35mw_vyP6GfYK";
+  <div id="status"></div>
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <div id="list"></div>
 
-    const authPanel = document.getElementById("authPanel");
-    const composer = document.getElementById("composer");
-    const emailInput = document.getElementById("emailInput");
-    const passwordInput = document.getElementById("passwordInput");
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const authStatus = document.getElementById("authStatus");
-    const publishBtn = document.getElementById("publishBtn");
-    const publishStatus = document.getElementById("publishStatus");
-    const contentInput = document.getElementById("contentInput");
-    const list = document.getElementById("list");
-    const userStatus = document.getElementById("userStatus");
+</div>
 
-    function escapeHtml(str) {
-      return String(str)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+// ⚠️ 你的 Supabase
+const url = "https://ellfewcyczznuczruggc.supabase.co";
+const key = "你的 anon key（必须换）";
+
+let supabase = null;
+
+try {
+  supabase = window.supabase.createClient(url, key);
+} catch (e) {
+  console.log("Supabase 未初始化");
+}
+
+// 渲染
+async function load() {
+  const list = document.getElementById("list");
+
+  if (!supabase) {
+    list.innerHTML = "未连接数据库";
+    return;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("talk_posts")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    if (!data.length) {
+      list.innerHTML = "还没有内容";
+      return;
     }
 
-    function formatTime(value) {
-      const d = new Date(value);
-      if (Number.isNaN(d.getTime())) return value;
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, "0");
-      const day = String(d.getDate()).padStart(2, "0");
-      const h = String(d.getHours()).padStart(2, "0");
-      const min = String(d.getMinutes()).padStart(2, "0");
-      return `${y}-${m}-${day} ${h}:${min}`;
-    }
+    list.innerHTML = data.map(i => `
+      <div class="post">
+        <div class="time">${new Date(i.created_at).toLocaleString()}</div>
+        <div>${i.content}</div>
+      </div>
+    `).join("");
 
-    async function renderPosts() {
-      const { data, error } = await supabase
-        .from("talk_posts")
-        .select("id, user_id, content, created_at")
-        .order("created_at", { ascending: false });
+  } catch (err) {
+    list.innerHTML = "加载失败（数据库未配置）";
+  }
+}
 
-      if (error) {
-        list.innerHTML = `<div class="empty">加载失败：${escapeHtml(error.message)}</div>`;
-        return;
-      }
+// 发布
+async function publish() {
+  const input = document.getElementById("input");
+  const status = document.getElementById("status");
 
-      if (!data || !data.length) {
-        list.innerHTML = `<div class="empty">还没有内容。</div>`;
-        return;
-      }
+  const text = input.value.trim();
+  if (!text) return;
 
-      const { data: authData } = await supabase.auth.getUser();
-      const currentUserId = authData?.user?.id || null;
+  if (!supabase) {
+    status.innerText = "未连接数据库";
+    return;
+  }
 
-      list.innerHTML = data.map(post => `
-        <article class="post">
-          <div class="time">${escapeHtml(formatTime(post.created_at))}</div>
-          <div class="content">${escapeHtml(post.content)}</div>
-          ${
-            currentUserId && currentUserId === post.user_id
-              ? `<div class="post-actions">
-                   <button class="ghost" onclick="deletePost(${post.id})">删除</button>
-                 </div>`
-              : ""
-          }
-        </article>
-      `).join("");
-    }
+  status.innerText = "发布中...";
 
-    async function refreshAuthUI() {
-      const { data } = await supabase.auth.getUser();
-      const user = data?.user || null;
-
-      if (user) {
-        authPanel.classList.add("hidden");
-        composer.classList.remove("hidden");
-        logoutBtn.style.display = "inline-block";
-        userStatus.textContent = user.email || "已登录";
-      } else {
-        authPanel.classList.remove("hidden");
-        composer.classList.add("hidden");
-        logoutBtn.style.display = "none";
-        userStatus.textContent = "未登录";
-      }
-    }
-
-    loginBtn.addEventListener("click", async () => {
-      authStatus.textContent = "登录中...";
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-
-      if (!email || !password) {
-        authStatus.textContent = "请输入邮箱和密码。";
-        return;
-      }
-
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-
-      if (error) {
-        authStatus.textContent = "登录失败：" + error.message;
-        return;
-      }
-
-      authStatus.textContent = "登录成功。";
-      await refreshAuthUI();
-      await renderPosts();
+  try {
+    const { error } = await supabase.from("talk_posts").insert({
+      content: text
     });
 
-    logoutBtn.addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      await refreshAuthUI();
-      await renderPosts();
-    });
+    if (error) throw error;
 
-    publishBtn.addEventListener("click", async () => {
-      publishStatus.textContent = "发布中...";
-      const content = contentInput.value.trim();
+    input.value = "";
+    status.innerText = "已发布";
 
-      if (!content) {
-        publishStatus.textContent = "先写点内容。";
-        return;
-      }
+    load();
 
-      const { data: userData } = await supabase.auth.getUser();
-      const user = userData?.user;
+  } catch (err) {
+    status.innerText = "发布失败";
+  }
+}
 
-      if (!user) {
-        publishStatus.textContent = "你还没有登录。";
-        await refreshAuthUI();
-        return;
-      }
+load();
 
-      const { error } = await supabase.from("talk_posts").insert({
-        user_id: user.id,
-        content
-      });
+</script>
 
-      if (error) {
-        publishStatus.textContent = "发布失败：" + error.message;
-        return;
-      }
-
-      contentInput.value = "";
-      publishStatus.textContent = "已发布。";
-      await renderPosts();
-    });
-
-    async function deletePost(id) {
-      const ok = confirm("确定删除这条内容吗？");
-      if (!ok) return;
-
-      const { error } = await supabase.from("talk_posts").delete().eq("id", id);
-      if (error) {
-        alert("删除失败：" + error.message);
-        return;
-      }
-      await renderPosts();
-    }
-
-    window.deletePost = deletePost;
-
-    supabase.auth.onAuthStateChange(async () => {
-      await refreshAuthUI();
-      await renderPosts();
-    });
-
-    (async function init() {
-      await refreshAuthUI();
-      await renderPosts();
-    })();
-  </script>
 </body>
 </html>
