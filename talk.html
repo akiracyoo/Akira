@@ -1,162 +1,97 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
 <title>Talk</title>
 
 <style>
 body {
-  margin: 0;
-  background: #fff;
-  color: #111;
-  font-family: -apple-system, BlinkMacSystemFont;
-}
-
-.topbar {
-  height: 56px;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-}
-
-.container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 20px;
+  background:#fff;
+  color:#111;
+  font-family:-apple-system;
+  max-width:720px;
+  margin:40px auto;
 }
 
 textarea {
-  width: 100%;
-  height: 120px;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 12px;
+  width:100%;
+  height:120px;
+  border:1px solid #ddd;
+  padding:10px;
 }
 
 button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  border: none;
-  background: #111;
-  color: #fff;
-  border-radius: 999px;
-  cursor: pointer;
+  margin-top:10px;
+  padding:8px 16px;
+  background:#111;
+  color:#fff;
+  border:none;
 }
 
 .post {
-  border-bottom: 1px solid #eee;
-  padding: 16px 0;
+  border-bottom:1px solid #eee;
+  padding:12px 0;
 }
-
-.time {
-  font-size: 12px;
-  color: #888;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-  <div>Talk</div>
-  <a href="./index.html">返回</a>
-</div>
+<h2>Talk</h2>
 
-<div class="container">
+<textarea id="input"></textarea>
+<button onclick="post()">发布</button>
 
-  <textarea id="input" placeholder="写点什么..."></textarea>
-  <button onclick="publish()">发布</button>
-
-  <div id="status"></div>
-
-  <div id="list"></div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div id="list"></div>
 
 <script>
 
-// ⚠️ 你的 Supabase
-const url = "https://ellfewcyczznuczruggc.supabase.co";
-const key = "sb_publishable_KoFk1TQNGj-8z1yCOB35mw_vyP6GfYK";
+// ⚠️ 改这里
+const repo = "akiracyoo/Akira";
+const token = "你的GitHub Token"; // 必填
 
-let supabase = null;
-
-try {
-  supabase = window.supabase.createClient(url, key);
-} catch (e) {
-  console.log("Supabase 未初始化");
-}
-
-// 渲染
 async function load() {
-  const list = document.getElementById("list");
+  const res = await fetch(`https://raw.githubusercontent.com/${repo}/main/talk.json`);
+  const data = await res.json();
 
-  if (!supabase) {
-    list.innerHTML = "未连接数据库";
-    return;
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("talk_posts")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-
-    if (!data.length) {
-      list.innerHTML = "还没有内容";
-      return;
-    }
-
-    list.innerHTML = data.map(i => `
+  document.getElementById("list").innerHTML =
+    data.reverse().map(i => `
       <div class="post">
-        <div class="time">${new Date(i.created_at).toLocaleString()}</div>
-        <div>${i.content}</div>
+        <div>${i.time}</div>
+        <div>${i.text}</div>
       </div>
     `).join("");
-
-  } catch (err) {
-    list.innerHTML = "加载失败（数据库未配置）";
-  }
 }
 
-// 发布
-async function publish() {
-  const input = document.getElementById("input");
-  const status = document.getElementById("status");
-
-  const text = input.value.trim();
+async function post() {
+  const text = document.getElementById("input").value.trim();
   if (!text) return;
 
-  if (!supabase) {
-    status.innerText = "未连接数据库";
-    return;
-  }
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/talk.json`);
+  const file = await res.json();
 
-  status.innerText = "发布中...";
+  const content = JSON.parse(atob(file.content));
 
-  try {
-    const { error } = await supabase.from("talk_posts").insert({
-      content: text
-    });
+  content.push({
+    text,
+    time: new Date().toLocaleString()
+  });
 
-    if (error) throw error;
+  await fetch(`https://api.github.com/repos/${repo}/contents/talk.json`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `token ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "update talk",
+      content: btoa(JSON.stringify(content, null, 2)),
+      sha: file.sha
+    })
+  });
 
-    input.value = "";
-    status.innerText = "已发布";
-
-    load();
-
-  } catch (err) {
-    status.innerText = "发布失败";
-  }
+  document.getElementById("input").value = "";
+  load();
 }
 
 load();
